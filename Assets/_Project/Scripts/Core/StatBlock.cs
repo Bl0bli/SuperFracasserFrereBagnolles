@@ -7,7 +7,8 @@ namespace Game
     public class StatBlock : MonoBehaviour
     {
         [SerializeField] private CharacterStats _baseStats;
-        [SerializeField] private List<StatModifier> _modifiers = new List<StatModifier>();
+        
+        private List<StatModifier> _modifiers = new List<StatModifier>();
 
         public float Get(StatType stat)
         {
@@ -47,6 +48,8 @@ namespace Game
                     return _baseStats.MoveSpeed;
                 case StatType.Acceleration:
                     return _baseStats.Acceleration;
+                case StatType.Deceleration:
+                    return _baseStats.Deceleration;
                 case StatType.TurnRate:
                     return _baseStats.TurnRate;
                 case StatType.Grip:

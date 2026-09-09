@@ -6,13 +6,24 @@ namespace Game
     public class CharacterStats : ScriptableObject
     {
         [Header("Movement Stats")]
+        [Tooltip("Vitesse maximale, en unites par seconde.")]
         [Range(1, 30)] public float MoveSpeed = 8f;
-        [Range(0.1f, 50)] public float Acceleration = 20f;
-        [Range(1, 360)] public float TurnRate = 180f;
 
-        [Tooltip("Part de la vitesse laterale annulee a chaque pas de physique. " +
-                 "1 = sur des rails, 0.1 = savonnette.")]
-        [Range(0f, 1f)] public float Grip = 0.85f;
+        [Tooltip("Gain de vitesse par seconde tant que le stick est pousse. " +
+                 "Plus c'est haut, plus le demarrage est sec.")]
+        [Range(1, 100)] public float Acceleration = 30f;
+
+        [Tooltip("Perte de vitesse par seconde quand le stick est relache. " +
+                 "Bas = le vehicule roule longtemps sur son erre.")]
+        [Range(1, 100)] public float Deceleration = 20f;
+
+        [Tooltip("Part de la vitesse perpendiculaire a la direction voulue annulee a chaque pas " +
+                 "de physique. 1 = changement de cap instantane, 0.1 = patinoire.")]
+        [Range(0f, 1f)] public float Grip = 0.2f;
+
+        [Tooltip("Vitesse de rotation du sprite vers la direction voulue, en degres par seconde. " +
+                 "Purement visuel : n'influence pas la trajectoire.")]
+        [Range(1, 1440)] public float TurnRate = 720f;
 
         [Header("Health Stats")]
         [Range(1, 500)] public int MaxHealth = 100;

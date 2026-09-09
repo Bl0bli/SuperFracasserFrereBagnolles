@@ -7,6 +7,7 @@ namespace Game
         NULL,
         MoveSpeed,
         Acceleration,
+        Deceleration,
         TurnRate,
         Grip,
         MaxHealth,
