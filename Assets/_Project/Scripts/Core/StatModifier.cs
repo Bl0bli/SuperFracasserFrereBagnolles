@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace Game
 {
+    [Serializable]
     public struct StatModifier
     {
         public StatType Stats;

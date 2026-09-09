@@ -8,6 +8,8 @@ namespace Game
         MoveSpeed,
         Acceleration,
         TurnRate,
+        Grip,
+        MaxHealth,
         Damage,
         AttackCooldown
     }

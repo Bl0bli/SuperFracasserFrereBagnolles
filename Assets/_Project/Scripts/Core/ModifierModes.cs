@@ -4,9 +4,7 @@ namespace Game
 {
     public enum ModifierMode
     {
-        Add,
-        Subtract,
+        Additive,
         Multiply,
-        Divide
     }
 }
