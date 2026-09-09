@@ -9,6 +9,17 @@ namespace Game
         [SerializeField] private CharacterStats _baseStats;
         
         private List<StatModifier> _modifiers = new List<StatModifier>();
+        
+        public void SetBaseStats(CharacterStats stats)
+        {
+            if (stats == null)
+            {
+                Debug.LogError("[StatBlock] SetBaseStats appele avec null sur " + name + ".", this);
+                return;
+            }
+
+            _baseStats = stats;
+        }
 
         public float Get(StatType stat)
         {
@@ -54,6 +65,16 @@ namespace Game
                     return _baseStats.TurnRate;
                 case StatType.Grip:
                     return _baseStats.Grip;
+                case StatType.Mass:
+                    return _baseStats.Mass;
+                case StatType.LinearDamping:
+                    return _baseStats.LinearDamping;
+                case StatType.RamSpeedThreshold:
+                    return _baseStats.RamSpeedThreshold;
+                case StatType.RamDamage:
+                    return _baseStats.RamDamage;
+                case StatType.KnockbackForce:
+                    return _baseStats.KnockbackForce;
                 case StatType.MaxHealth:
                     return _baseStats.MaxHealth;
                 case StatType.Damage:

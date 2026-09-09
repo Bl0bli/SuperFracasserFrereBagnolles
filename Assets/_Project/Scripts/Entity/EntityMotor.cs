@@ -2,14 +2,15 @@ using UnityEngine;
 
 namespace Game
 {
+    //physique du méchant
     [RequireComponent(typeof(Rigidbody2D))]
-    public class CarMotor : MonoBehaviour
+    public class EntityMotor : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private StatBlock _stats;
 
-        [Tooltip("Decalage d'orientation du sprite. -90 si le vehicule est dessine pointant vers " +
-                 "le haut (+Y), 0 s'il pointe vers la droite (+X).")]
+        [Tooltip("Decalage d'orientation du sprite. -90 si l'entite est dessinee pointant vers " +
+                 "le haut (+Y), 0 si elle pointe vers la droite (+X).")]
         [SerializeField] private float _spriteAngleOffset = -90f;
 
         private const float InputThreshold = 0.0001f;
@@ -40,14 +41,12 @@ namespace Game
         {
             float max = _stats.Get(StatType.MoveSpeed) * throttle;
             float along = Vector2.Dot(_rb.linearVelocity, direction);
-
             if (along >= max) return;
-
-            // x mass : la stat d'acceleration garde le meme sens quelle que soit la masse.
             float force = _stats.Get(StatType.Acceleration) * _rb.mass * throttle;
             _rb.AddForce(direction * force);
         }
 
+        //bullshit maths pour réduire les forces perpendiculaire
         private void AlignVelocity(Vector2 direction)
         {
             Vector2 velocity = _rb.linearVelocity;

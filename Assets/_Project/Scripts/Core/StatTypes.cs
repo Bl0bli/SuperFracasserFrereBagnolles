@@ -12,6 +12,11 @@ namespace Game
         Grip,
         MaxHealth,
         Damage,
-        AttackCooldown
+        AttackCooldown,
+        Mass,
+        LinearDamping,
+        RamSpeedThreshold,
+        RamDamage,
+        KnockbackForce
     }
 }

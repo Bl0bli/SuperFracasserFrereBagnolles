@@ -11,10 +11,10 @@ namespace Game
 
         private InputAction _move;
         private InputAction _action;
+        private InputAction _start;
 
         // -1 quand les controles sont inverses
         private int _inverted = 1;
-        
         public Vector2 Move => _move.ReadValue<Vector2>() * _inverted;
 
         public bool ActionHeld => _action.IsPressed();
@@ -22,6 +22,7 @@ namespace Game
 
         public event Action ActionPressed;
         public event Action ActionReleased;
+        public event Action StartPressed;
 
         private void Awake()
         {
@@ -29,18 +30,21 @@ namespace Game
 
             _move = _playerInput.actions.FindAction("Move", true);
             _action = _playerInput.actions.FindAction("Action", true);
+            _start = _playerInput.actions.FindAction("Start", true);
         }
 
         private void OnEnable()
         {
             _action.performed += HandleActionPerformed;
             _action.canceled += HandleActionCanceled;
+            _start.performed += HandleStartPerformed;
         }
 
         private void OnDisable()
         {
             _action.performed -= HandleActionPerformed;
             _action.canceled -= HandleActionCanceled;
+            _start.performed -= HandleStartPerformed;
         }
 
         public void SetInverted(bool inverted)
@@ -56,6 +60,11 @@ namespace Game
         private void HandleActionCanceled(InputAction.CallbackContext ctx)
         {
             ActionReleased?.Invoke();
+        }
+
+        private void HandleStartPerformed(InputAction.CallbackContext ctx)
+        {
+            StartPressed?.Invoke();
         }
     }
 }

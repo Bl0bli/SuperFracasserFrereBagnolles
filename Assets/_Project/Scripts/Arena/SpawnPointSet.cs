@@ -4,21 +4,30 @@ namespace Game
 {
     public class SpawnPointSet : MonoBehaviour
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-        
-        }
+        [SerializeField] private Transform[] _spawnPointsCar;
+        [SerializeField] private Transform[] _spawnPointsCthulhu;
 
-        // Update is called once per frame
-        void Update()
+        public Transform GetSpawnPoint(FactionType faction, int indexInFaction)
         {
-        
-        }
+            Transform[] points = faction == FactionType.Cthulhu ? _spawnPointsCthulhu : _spawnPointsCar;
 
-        public Transform GetSpawnPoint(int id)
-        {
-            throw new System.NotImplementedException();
+            if (points == null || points.Length == 0)
+            {
+                Debug.LogError("[SpawnPointSet] Aucun point de spawn pour la faction " + faction +
+                               " : le joueur apparaitra sur le SpawnPointSet.", this);
+                return transform;
+            }
+
+            int index = ((indexInFaction % points.Length) + points.Length) % points.Length;
+
+            if (points[index] == null)
+            {
+                Debug.LogError("[SpawnPointSet] Le point " + index + " de la faction " + faction +
+                               " n'est pas assigne.", this);
+                return transform;
+            }
+
+            return points[index];
         }
     }
 }

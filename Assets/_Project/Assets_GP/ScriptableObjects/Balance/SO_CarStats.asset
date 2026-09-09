@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac2c1349c6dc4dc4d8f23d3a58af2654, type: 3}
   m_Name: SO_CarStats
   m_EditorClassIdentifier: Game.Runtime::Game.CharacterStats
-  MoveSpeed: 8
-  Acceleration: 30
-  Deceleration: 20
-  Grip: 0.2
+  MoveSpeed: 9
+  Acceleration: 35
+  Deceleration: 25
+  Grip: 0.35
   TurnRate: 720
+  Mass: 1
+  LinearDamping: 0.5
+  RamSpeedThreshold: 0.5
+  RamDamage: 10
+  KnockbackForce: 6
   MaxHealth: 100
   Damage: 10
   AttackCooldown: 1

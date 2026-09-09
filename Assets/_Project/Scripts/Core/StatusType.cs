@@ -8,5 +8,6 @@ namespace Game
         Stunned,
         Inverted,
         Shielded,
+        Silenced
     }
 }
