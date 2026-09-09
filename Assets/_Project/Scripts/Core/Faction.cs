@@ -7,8 +7,4 @@ namespace Game
         Car,
         Cthulhu
     }
-    public class Faction : MonoBehaviour
-    {
-        
-    }
 }
