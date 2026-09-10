@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
   _icon: {fileID: 361797287486685399, guid: f907d8e1a814e5b4c9d66816a0c68aa0, type: 3}
   _polarity: 1
+  _feedbackColor: {r: 0.05490196, g: 0.4392157, b: 0.22745098, a: 0.29803923}
   _target: 1
-  _verboseLogs: 1
   _status: 2
   _duration: 5

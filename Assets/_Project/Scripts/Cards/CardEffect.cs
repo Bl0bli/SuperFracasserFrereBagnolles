@@ -14,6 +14,10 @@ namespace Game
         [Tooltip("Colore les particules sous la carte : lumineuses ou sombres.")]
         [SerializeField] private EffectPolarity _polarity = EffectPolarity.Bonus;
 
+        [Tooltip("Couleur du flash joue sur la cible. Laissez l'alpha a 0 pour utiliser " +
+                 "la couleur par defaut de la polarite.")]
+        [SerializeField] private Color _feedbackColor = new Color(1f, 1f, 1f, 0f);
+
         [Header("Ciblage")]
         [Tooltip("Qui subit l'effet. Self = le ramasseur. Cars = les voitures. " +
                  "Cthulhu = l'entite. RandomCar = une voiture au hasard. Everyone = tout le monde.")]
@@ -22,6 +26,7 @@ namespace Game
         public EffectTarget Target => _target;
         public Sprite Icon => _icon;
         public EffectPolarity Polarity => _polarity;
+        public Color FeedbackColor => _feedbackColor;
 
         public IReadOnlyList<Actor> Apply(Actor collector)
         {

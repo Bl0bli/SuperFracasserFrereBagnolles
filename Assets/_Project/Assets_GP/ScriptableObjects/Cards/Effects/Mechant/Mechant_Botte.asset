@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.DamageEffect
   _icon: {fileID: -6297316882485560648, guid: f88b0aa11a5a8434896336f1191831c1, type: 3}
   _polarity: 0
+  _feedbackColor: {r: 1, g: 0.83137256, b: 0.30588236, a: 0.29803923}
   _target: 0
-  _verboseLogs: 1
   _damage: 5
   _knockback: 0

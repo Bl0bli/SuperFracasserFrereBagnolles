@@ -42,7 +42,14 @@ namespace Game
         [SerializeField] private Color _bonusColor = new Color(0.45f, 1f, 0.6f);
         [SerializeField] private Color _malusColor = new Color(0.75f, 0.3f, 1f);
         [SerializeField, Min(0f)] private float _reactionPunch = 0.3f;
-        [SerializeField, Min(0.05f)] private float _flashDuration = 0.14f;
+        [Tooltip("Duree de la montee vers la couleur.")]
+        [SerializeField, Min(0.02f)] private float _colorRise = 0.07f;
+
+        [Tooltip("Duree du retour a la couleur d'origine.")]
+        [SerializeField, Min(0.05f)] private float _colorFall = 0.22f;
+
+        [Tooltip("Nombre de battements de la couleur.")]
+        [SerializeField, Min(1)] private int _colorPulses = 2;
 
         [Header("Toupie")]
         [Tooltip("Nombre de tours COMPLETS. Un entier garantit que le vehicule retombe droit.")]
@@ -55,6 +62,7 @@ namespace Game
         private Tween _flash;
         private Tween _spin;
         private float _phase;
+        private float _feedbackUntil;
         private float _amplitude;
         private float _frequency;
 
@@ -155,9 +163,29 @@ namespace Game
             if (_renderer != null) _baseColor = _renderer.color;
         }
 
+        /// <summary>
+        /// Retour visuel demande par une carte, avec sa propre couleur.
+        /// Alpha a 0 : on retombe sur la couleur de la polarite.
+        /// </summary>
+        public void PlayFeedback(Color color, EffectPolarity polarity)
+        {
+            Color resolved = color.a > 0f
+                ? color
+                : (polarity == EffectPolarity.Bonus ? _bonusColor : _malusColor);
+
+            // La carte a la priorite : on neutralise la reaction automatique qui suit.
+            _feedbackUntil = Time.time + 0.4f;
+
+            Punch(_reactionPunch, _hitPunchDuration);
+            PlayColor(resolved);
+
+            if (polarity == EffectPolarity.Malus) Spin();
+        }
+
         private void HandleStatusChanged(StatusType type)
         {
             if (_status == null || !_status.Has(type)) return;
+            if (Time.time < _feedbackUntil) return;
 
             if (type == StatusType.Shielded)
             {
@@ -172,6 +200,8 @@ namespace Game
 
         private void HandleModifierAdded(StatModifier modifier)
         {
+            if (Time.time < _feedbackUntil) return;
+
             bool penalty = IsPenalty(modifier);
 
             React(penalty ? _malusColor : _bonusColor);
@@ -183,7 +213,7 @@ namespace Game
         {
             if (IsPenalty(modifier)) return;
 
-            Flash(_bonusColor);
+            PlayColor(_bonusColor);
         }
 
         private static bool IsPenalty(StatModifier modifier)
@@ -196,7 +226,7 @@ namespace Game
         private void React(Color color)
         {
             Punch(_reactionPunch, _hitPunchDuration);
-            Flash(color);
+            PlayColor(color);
         }
 
         private void Punch(float strength, float duration)
@@ -211,13 +241,29 @@ namespace Game
 
         private void Flash(Color color)
         {
+            PlayColor(color);
+        }
+
+        private void PlayColor(Color color)
+        {
             if (_renderer == null) return;
 
             _flash?.Kill();
-            _renderer.color = color;
+            _renderer.color = _baseColor;
 
-            _flash = DOTween.To(() => _renderer.color, c => _renderer.color = c, _baseColor, _flashDuration)
-                .SetTarget(_visuals);
+            Sequence sequence = DOTween.Sequence().SetTarget(_visuals);
+
+            for (int i = 0; i < _colorPulses; i++)
+            {
+                sequence.Append(DOTween.To(() => _renderer.color, c => _renderer.color = c,
+                    color, _colorRise).SetEase(Ease.OutQuad));
+
+                sequence.Append(DOTween.To(() => _renderer.color, c => _renderer.color = c,
+                    _baseColor, _colorFall).SetEase(Ease.InQuad));
+            }
+
+            sequence.OnComplete(() => _renderer.color = _baseColor);
+            _flash = sequence;
         }
 
         private void Spin()

@@ -63,6 +63,7 @@ namespace Game
             {
                 reveal.OnComplete(() =>
                 {
+                    Feedback(collector, effect.FeedbackColor, effect.Polarity);
                     card.PlayHold();
                     if (_holdDuration > 0f) card.Dismiss(_holdDuration);
                 });
@@ -74,6 +75,12 @@ namespace Game
         }
 
         public void PlaySelf(Sprite back, Sprite front, EffectPolarity polarity,
+            Actor collector, Vector3 origin)
+        {
+            PlaySelf(back, front, polarity, default, collector, origin);
+        }
+
+        public void PlaySelf(Sprite back, Sprite front, EffectPolarity polarity, Color feedbackColor,
             Actor collector, Vector3 origin)
         {
             if (_cardVisualPrefab == null)
@@ -91,9 +98,18 @@ namespace Game
 
             reveal.OnComplete(() =>
             {
+                Feedback(collector, feedbackColor, polarity);
                 card.PlayHold();
                 if (_holdDuration > 0f) card.Dismiss(_holdDuration);
             });
+        }
+
+        private static void Feedback(Actor actor, Color color, EffectPolarity polarity)
+        {
+            if (actor == null) return;
+
+            ActorJuice juice = actor.GetComponent<ActorJuice>();
+            if (juice != null) juice.PlayFeedback(color, polarity);
         }
 
         private static bool Contains(IReadOnlyList<Actor> list, Actor actor)
@@ -117,6 +133,7 @@ namespace Game
 
                 if (target == collector)
                 {
+                    Feedback(target, effect.FeedbackColor, effect.Polarity);
                     origin.PlayHold();
                     if (_holdDuration > 0f) origin.Dismiss(_holdDuration);
                     continue;
@@ -131,7 +148,11 @@ namespace Game
                 {
                     if (captured == null || target == null) return;
 
-                    captured.PlayTravel(target, effect.Polarity, () => captured.Dismiss(_distributedHold));
+                    captured.PlayTravel(target, effect.Polarity, () =>
+                    {
+                        Feedback(target, effect.FeedbackColor, effect.Polarity);
+                        captured.Dismiss(_distributedHold);
+                    });
                 });
 
                 delay += _distributionStagger;

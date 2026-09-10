@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.ShieldEffect
   _icon: {fileID: 1711057867453021596, guid: 44f858052e366434b80837534bb0f3db, type: 3}
   _polarity: 0
+  _feedbackColor: {r: 1, g: 0.83067214, b: 0.3050313, a: 0.29803923}
   _target: 0
-  _verboseLogs: 1
   _duration: 6
   _frontalOnly: 0
   _healOnSurvive: 1
