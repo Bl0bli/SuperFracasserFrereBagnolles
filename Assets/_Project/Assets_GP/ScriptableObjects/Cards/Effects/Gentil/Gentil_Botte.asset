@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb25625e8aae77e4e81ae7dd70bfa596, type: 3}
   m_Name: Gentil_Botte
   m_EditorClassIdentifier: Game.Runtime::Game.ShieldEffect
+  _icon: {fileID: 1711057867453021596, guid: 44f858052e366434b80837534bb0f3db, type: 3}
+  _polarity: 0
   _target: 0
-  _cardSprite: {fileID: 1711057867453021596, guid: 44f858052e366434b80837534bb0f3db, type: 3}
   _verboseLogs: 1
   _duration: 6
   _frontalOnly: 0

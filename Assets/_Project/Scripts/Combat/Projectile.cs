@@ -24,18 +24,21 @@ namespace Game
         [Tooltip("Coche : le camp du lanceur detruit le projectile en le touchant, sans degats.")]
         [SerializeField] private bool _crushedByOwnerFaction = true;
 
-        [Tooltip("Duree pendant laquelle la collision avec le lanceur est desactivee, " +
-                 "pour qu'il ne se pousse pas lui-meme au tir.")]
-        [SerializeField, Min(0f)] private float _ownerGrace = 0.25f;
+        [Tooltip("Duree pendant laquelle la collision avec le lanceur est desactivee.")]
+        [SerializeField, Min(0f)] private float _ownerGrace = 0.3f;
 
-        private readonly List<Collider2D> _ignored = new List<Collider2D>();
+        private readonly List<Collider2D> _ownerColliders = new List<Collider2D>();
+        private Collider2D[] _myColliders;
         private Actor _owner;
         private int _bouncesLeft;
         private float _deathTime;
+        private float _graceUntil;
+        private bool _restored;
 
         private void Awake()
         {
             if (_rb == null) _rb = GetComponent<Rigidbody2D>();
+            _myColliders = GetComponentsInChildren<Collider2D>(true);
             _bouncesLeft = _maxBounces;
             _deathTime = Time.time + _lifetime;
         }
@@ -50,54 +53,62 @@ namespace Game
             _owner = owner;
             _bouncesLeft = _maxBounces;
             _deathTime = Time.time + _lifetime;
+            _restored = false;
 
             if (direction.sqrMagnitude < 0.0001f) direction = Vector2.up;
 
             _rb.linearVelocity = direction.normalized * _speed;
 
-            if (_ownerGrace > 0f)
+            if (_owner == null)
             {
-                SetOwnerCollision(true);
-                Invoke(nameof(RestoreOwnerCollision), _ownerGrace);
+                Debug.LogError("[Projectile] " + name + " lance SANS proprietaire : il ne fera aucun " +
+                               "degat et poussera le tireur.", this);
+                return;
+            }
+
+            CacheOwnerColliders();
+            SetOwnerCollision(true);
+            _graceUntil = Time.time + _ownerGrace;
+
+        }
+
+        private void CacheOwnerColliders()
+        {
+            _ownerColliders.Clear();
+
+            foreach (Collider2D c in _owner.GetComponentsInChildren<Collider2D>(true))
+            {
+                if (c != null) _ownerColliders.Add(c);
             }
         }
 
         private void SetOwnerCollision(bool ignore)
         {
-            if (_owner == null) return;
+            if (_myColliders == null) return;
 
-            Collider2D[] mine = GetComponentsInChildren<Collider2D>();
-            Collider2D[] theirs = _owner.GetComponentsInChildren<Collider2D>();
-
-            foreach (Collider2D a in mine)
+            foreach (Collider2D mine in _myColliders)
             {
-                if (a == null) continue;
+                if (mine == null) continue;
 
-                foreach (Collider2D b in theirs)
+                foreach (Collider2D theirs in _ownerColliders)
                 {
-                    if (b == null) continue;
-
-                    Physics2D.IgnoreCollision(a, b, ignore);
-                    if (ignore) _ignored.Add(b);
+                    if (theirs != null) Physics2D.IgnoreCollision(mine, theirs, ignore);
                 }
             }
         }
 
-        private void RestoreOwnerCollision()
+        private void FixedUpdate()
         {
-            Collider2D[] mine = GetComponentsInChildren<Collider2D>();
+            if (_owner == null || _restored) return;
 
-            foreach (Collider2D a in mine)
+            if (Time.time < _graceUntil)
             {
-                if (a == null) continue;
-
-                foreach (Collider2D b in _ignored)
-                {
-                    if (b != null) Physics2D.IgnoreCollision(a, b, false);
-                }
+                SetOwnerCollision(true);
+                return;
             }
 
-            _ignored.Clear();
+            SetOwnerCollision(false);
+            _restored = true;
         }
 
         private void Update()
@@ -109,39 +120,50 @@ namespace Game
         {
             Actor other = collision.collider.GetComponentInParent<Actor>();
 
-            if (other != null && _owner != null)
+            if (_owner == null)
             {
-                if (other.Faction == _owner.Faction)
-                {
-                    if (_crushedByOwnerFaction) Destroy(gameObject);
-                    return;
-                }
-
-                Hit(other);
+                ConsumeBounce();
                 return;
             }
 
-            ConsumeBounce();
+            if (other == null)
+            {
+                ConsumeBounce();
+                return;
+            }
+
+            if (other.Faction == _owner.Faction)
+            {
+                if (_crushedByOwnerFaction) Destroy(gameObject);
+                return;
+            }
+
+            Hit(other);
         }
 
         private void Hit(Actor target)
         {
             Health health = target.Health;
 
-            if (health != null && health.IsAlive)
+            if (health == null || !health.IsAlive)
             {
-                Vector2 direction = target.transform.position - transform.position;
-                if (direction.sqrMagnitude < 0.0001f) direction = _rb.linearVelocity;
-
-                health.TakeDamage(new DamageInfos
-                {
-                    Amount = ResolveDamage(),
-                    Type = DamageType.Projectile,
-                    Source = _owner,
-                    Direction = direction.normalized,
-                    Knockback = _knockback
-                });
+                ConsumeBounce();
+                return;
             }
+
+            Vector2 direction = target.transform.position - transform.position;
+            if (direction.sqrMagnitude < 0.0001f) direction = _rb.linearVelocity;
+
+            int amount = ResolveDamage();
+
+            health.TakeDamage(new DamageInfos
+            {
+                Amount = amount,
+                Type = DamageType.Projectile,
+                Source = _owner,
+                Direction = direction.normalized,
+                Knockback = _knockback
+            });
 
             ConsumeBounce();
         }

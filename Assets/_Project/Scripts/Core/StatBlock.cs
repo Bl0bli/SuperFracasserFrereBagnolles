@@ -7,17 +7,13 @@ namespace Game
     public class StatBlock : MonoBehaviour
     {
         [SerializeField] private CharacterStats _baseStats;
-        [SerializeField] private Actor _actor;
 
         private readonly List<StatModifier> _modifiers = new List<StatModifier>();
 
         public IReadOnlyList<StatModifier> Modifiers => _modifiers;
 
-        public string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
-
         private void Awake()
         {
-            if (_actor == null) _actor = GetComponent<Actor>();
         }
 
         public void SetBaseStats(CharacterStats stats)

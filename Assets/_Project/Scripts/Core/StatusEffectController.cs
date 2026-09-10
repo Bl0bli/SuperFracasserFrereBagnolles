@@ -7,18 +7,14 @@ namespace Game
 {
     public class StatusEffectController : MonoBehaviour
     {
-        [SerializeField] private Actor _actor;
 
         private readonly Dictionary<StatusType, float> _activeStatus = new Dictionary<StatusType, float>();
         private readonly List<StatusType> _buffer = new List<StatusType>();
 
         public event Action<StatusType> OnStatusChanged;
 
-        public string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
-
         private void Awake()
         {
-            if (_actor == null) _actor = GetComponent<Actor>();
         }
 
         private void Update()

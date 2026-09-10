@@ -7,10 +7,6 @@ namespace Game
     {
         [SerializeField] private Health _health;
         [SerializeField] private StatusEffectController _statusController;
-        [SerializeField] private Actor _actor;
-
-        [Tooltip("Trace l'activation, l'absorption et l'expiration du bouclier.")]
-        [SerializeField] private bool _verboseLogs = true;
 
         private float _expiresAt;
         private bool _broken;
@@ -24,13 +20,10 @@ namespace Game
         public bool IsActive => !_broken && Time.time < _expiresAt;
         public float Remaining => Mathf.Max(0f, _expiresAt - Time.time);
 
-        private string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
-
         private void Awake()
         {
             if (_health == null) _health = GetComponent<Health>();
             if (_statusController == null) _statusController = GetComponent<StatusEffectController>();
-            if (_actor == null) _actor = GetComponent<Actor>();
         }
 
         public void Activate(float duration, bool frontalOnly, int healOnSurvive)
@@ -44,11 +37,6 @@ namespace Game
 
             OnShieldUp?.Invoke();
 
-            if (_verboseLogs)
-            {
-                Debug.Log("[Shield] " + Label + " : bouclier actif " + duration.ToString("F1") + "s" +
-                          (frontalOnly ? " (frontal)" : "") + ", rend " + healOnSurvive + " PV s'il tient.", this);
-            }
         }
 
         public bool TryAbsorb(DamageInfos infos)
@@ -57,7 +45,6 @@ namespace Game
 
             if (_frontalOnly && Vector2.Dot(infos.Direction, transform.up) >= 0f)
             {
-                if (_verboseLogs) Debug.Log("[Shield] " + Label + " : coup dans le dos, non bloque.", this);
                 return false;
             }
 
@@ -66,8 +53,6 @@ namespace Game
 
             OnShieldBroken?.Invoke(infos);
             OnShieldExpired?.Invoke(false);
-
-            if (_verboseLogs) Debug.Log("[Shield] " + Label + " : bouclier casse, " + infos.Amount + " degats absorbes.", this);
 
             return true;
         }
@@ -84,11 +69,6 @@ namespace Game
 
             OnShieldExpired?.Invoke(true);
 
-            if (_verboseLogs)
-            {
-                Debug.Log("[Shield] " + Label + " : bouclier tenu, " + _healOnSurvive + " PV rendus | PV " +
-                          (_health != null ? _health.Current.ToString("F0") + "/" + _health.Max.ToString("F0") : "?"), this);
-            }
         }
     }
 }

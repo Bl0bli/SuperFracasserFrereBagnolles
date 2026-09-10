@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a143a8cc9fc66d64585b233287b9e7b5, type: 3}
   m_Name: Gentil_Essence
   m_EditorClassIdentifier: Game.Runtime::Game.SpawnHazardEffect
+  _icon: {fileID: 2490716670525082465, guid: 12eb71f0823e7034f863f15bb83e6297, type: 3}
+  _polarity: 0
   _target: 0
-  _cardSprite: {fileID: 2490716670525082465, guid: 12eb71f0823e7034f863f15bb83e6297, type: 3}
   _verboseLogs: 1
   _hazardPrefab: {fileID: 1904695207601658941, guid: 10bf6cd1a683be9489c650b29fed9076, type: 3}
   _count: 3

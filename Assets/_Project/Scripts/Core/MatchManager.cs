@@ -20,11 +20,6 @@ namespace Game
         [SerializeField] private UnityEvent _onMatchStarted;
         [SerializeField] private UnityEvent _onMatchEnded;
 
-        [Header("Debug")]
-        [Tooltip("Trace dans la console chaque changement d'etat et chaque evenement du lobby. " +
-                 "A decocher avant le build.")]
-        [SerializeField] private bool _verboseLogs = true;
-
         private readonly List<Actor> _players = new List<Actor>();
         private readonly List<Actor> _cars = new List<Actor>();
         private Actor _cthulhu;
@@ -79,7 +74,6 @@ namespace Game
             {
                 Debug.LogError("[MatchManager] Aucun MatchSettings assigne : valeurs par defaut utilisees.", this);
             }
-            Log("Etat initial : " + _state + ". En attente de joueurs (minimum " + MinPlayers + ").");
         }
 
         private void OnDestroy()
@@ -104,7 +98,6 @@ namespace Game
             if (_remainingTime <= 0f)
             {
                 _remainingTime = 0f;
-                Log("Chrono ecoule.");
                 EvaluateVictory();
             }
         }
@@ -124,21 +117,17 @@ namespace Game
                 Debug.LogWarning("[MatchManager] " + actor.name + " n'a pas de Health : mort non suivie.", actor);
             }
 
-            Log("Joueur enregistre : " + actor.name + " (" + _players.Count + "/" + MinPlayers +
-                (CanStart ? ") - Start disponible." : ") - il en manque."));
         }
 
         public void RequestStart()
         {
             if (_state != MatchState.Warmup)
             {
-                Log("Start ignore : la partie est deja en etat " + _state + ".");
                 return;
             }
 
             if (_players.Count < MinPlayers)
             {
-                Log("Start refuse : " + _players.Count + " joueur(s), il en faut " + MinPlayers + ".");
                 return;
             }
 
@@ -151,7 +140,6 @@ namespace Game
 
             _bornes += amount;
             OnBornesChanged?.Invoke(_bornes);
-            Log("Bornes : " + _bornes + (BorneGoal > 0 ? " / " + BorneGoal : " (objectif desactive)"));
 
             EvaluateVictory();
         }
@@ -161,7 +149,6 @@ namespace Game
             SetState(MatchState.Starting);
 
             Actor chosen = _players[UnityEngine.Random.Range(0, _players.Count)];
-            Log("Entite tiree au sort : " + chosen.name + " parmi " + _players.Count + " joueurs.");
             _cars.Clear();
             _cthulhu = null;
 
@@ -183,15 +170,12 @@ namespace Game
                 Freeze(actor, CountdownSeconds + 0.1f);
             }
 
-            Log("Roles distribues : " + _cars.Count + " voiture(s) contre 1 entite. Decompte...");
             for (int i = CountdownSeconds; i > 0; i--)
             {
                 _countdownText.text = i.ToString();
-                Log("Decompte : " + i);
                 OnCountdownTick?.Invoke(i);
                 yield return new WaitForSeconds(1f);
             }
-            Log("GO");
             OnCountdownTick?.Invoke(0);
             _remainingTime = MatchDuration;
             _lastTickedSecond = -1;
@@ -213,13 +197,9 @@ namespace Game
             if (actor.Faction == FactionType.Cthulhu) _cthulhu = null;
             else _cars.Remove(actor);
 
-            Log("Mort de " + actor.name + " (" + actor.Faction + "). Restant : " +
-                _cars.Count + " voiture(s), entite " + (_cthulhu == null ? "eliminee" : "vivante") + ".");
-
             OnActorDied?.Invoke(actor);
             EvaluateVictory();
         }
-
 
         private void EvaluateVictory()
         {
@@ -250,7 +230,6 @@ namespace Game
         private void EndMatch(FactionType winner, string reason)
         {
             SetState(MatchState.Ended);
-            Log("Victoire " + (winner == FactionType.Car ? "des voitures" : "de l'entite") + " : " + reason + ".");
 
             foreach (Actor actor in _players)
             {
@@ -260,7 +239,6 @@ namespace Game
             OnMatchEnded?.Invoke(winner);
             _onMatchEnded?.Invoke();
         }
-        
         
         private static void Freeze(Actor actor, float duration) //freeze un actor (ex pendant le decompte)
         {
@@ -277,13 +255,7 @@ namespace Game
             MatchState previous = _state;
             _state = next;
 
-            Log("Etat : " + previous + " -> " + next);
             OnStateChanged?.Invoke(next);
-        }
-
-        private void Log(string message)
-        {
-            if (_verboseLogs) Debug.Log("[MatchManager] " + message, this);
         }
         public float getCurrentTime() //retourne le temps restant du match pour DisplayTimer
         {

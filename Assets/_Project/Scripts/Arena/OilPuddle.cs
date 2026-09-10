@@ -14,8 +14,6 @@ namespace Game
         [Tooltip("Decoche : l'entite traverse sans etre ralentie.")]
         [SerializeField] private bool _affectsEntity = false;
 
-        [SerializeField] private bool _verboseLogs = true;
-
         private readonly HashSet<StatBlock> _inside = new HashSet<StatBlock>();
         private Actor _owner;
 
@@ -45,7 +43,6 @@ namespace Game
                 Source = this
             });
 
-            if (_verboseLogs) Debug.Log("[Flaque] " + actor.name + " entre dans une flaque.", this);
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -56,7 +53,6 @@ namespace Game
 
             actor.Stats.RemoveModifier(this);
 
-            if (_verboseLogs) Debug.Log("[Flaque] " + actor.name + " sort d'une flaque.", this);
         }
 
         private void OnDestroy()

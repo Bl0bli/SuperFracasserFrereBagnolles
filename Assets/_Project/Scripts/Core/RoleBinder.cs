@@ -31,10 +31,6 @@ namespace Game
         [SerializeField] private float _punchScale = 1.6f;
         [SerializeField] private float _punchDuration = 0.45f;
 
-        [Header("Debug")]
-        [Tooltip("Trace la masse et la force de poussee effectivement appliquees a chaque role.")]
-        [SerializeField] private bool _logBodySettings = true;
-
         //Point d'accroche pour les VFX, le son et l'Animator de transformation
         public event Action<FactionType> OnRoleApplied;
 
@@ -107,13 +103,6 @@ namespace Game
             _rb.mass = _stats.Get(StatType.Mass);
             _rb.linearDamping = _stats.Get(StatType.LinearDamping);
 
-            if (_logBodySettings)
-            {
-                /*Debug.Log("[RoleBinder] " + name + " -> role " + faction +
-                          " | masse " + _rb.mass +
-                          " | damping " + _rb.linearDamping +
-                          " | force de poussee " + (_stats.Get(StatType.Acceleration) * _rb.mass), this);*/
-            }
         }
 
         private static void SetEnabled(Behaviour[] behaviours, bool value)

@@ -9,9 +9,6 @@ namespace Game
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private StatBlock _stats;
         [SerializeField] private Actor _actor;
-
-        [Tooltip("Trace chaque contact et la vitesse relevee, pour regler le seuil.")]
-        [SerializeField] private bool _logImpacts = false;
         
         private Vector2 _velocityBeforeImpact;
 
@@ -44,13 +41,6 @@ namespace Game
 
             // Il faut aller VERS la cible : un vehicule a l'arret percute ne rend pas les coups.
             bool movingIntoTarget = Vector2.Dot(_velocityBeforeImpact, direction) > 0f;
-
-            if (_logImpacts)
-            {
-                Debug.Log("[RamDamage] " + name + " touche " + target.name +
-                          " a " + speed.ToString("F1") + " u/s (seuil " + threshold.ToString("F1") + ")" +
-                          (movingIntoTarget ? "" : " - mais ne va pas vers la cible"), this);
-            }
 
             if (speed < threshold || !movingIntoTarget) return;
 
