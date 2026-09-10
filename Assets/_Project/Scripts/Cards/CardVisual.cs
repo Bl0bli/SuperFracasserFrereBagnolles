@@ -20,6 +20,7 @@ namespace Game
 
         [Tooltip("Temps d'arret quand la carte est sur la tranche, avant de reveler la face.")]
         [SerializeField, Min(0f)] private float _flipHold = 0.08f;
+
         [SerializeField, Min(0.05f)] private float _travelDuration = 0.4f;
         [SerializeField, Min(0.05f)] private float _dismissDuration = 0.25f;
 
@@ -28,7 +29,7 @@ namespace Game
         [SerializeField, Min(0.1f)] private float _holdPulse = 0.9f;
         [SerializeField] private float _travelArc = 1.2f;
 
-        private Transform _follow;
+        private Actor _follow;
         private Vector3 _baseScale;
 
         private void Awake()
@@ -42,7 +43,7 @@ namespace Game
 
         private void LateUpdate()
         {
-            if (_follow != null) transform.position = _follow.position;
+            if (_follow != null) transform.position = _follow.CardAnchorPosition;
 
             transform.rotation = Quaternion.identity;
         }
@@ -60,18 +61,18 @@ namespace Game
             _renderer.sprite = sprite;
         }
 
-        public void Follow(Transform anchor)
+        public void Follow(Actor actor)
         {
-            _follow = anchor;
+            _follow = actor;
         }
 
-        public Sequence PlayReveal(Transform anchor, Sprite front, EffectPolarity polarity)
+        public Sequence PlayReveal(Actor holder, Sprite front, EffectPolarity polarity)
         {
             Sequence sequence = DOTween.Sequence().SetTarget(transform);
 
-            sequence.Append(transform.DOMove(anchor.position, _slideDuration).SetEase(Ease.OutCubic));
+            sequence.Append(transform.DOMove(holder.CardAnchorPosition, _slideDuration).SetEase(Ease.OutCubic));
             sequence.Join(_flipper.DOScale(_baseScale * 1.1f, _slideDuration).SetEase(Ease.OutBack));
-            sequence.AppendCallback(() => Follow(anchor));
+            sequence.AppendCallback(() => Follow(holder));
 
             sequence.Append(_flipper.DOLocalRotate(new Vector3(0f, 90f, 0f), _flipDuration * 0.5f)
                 .SetEase(Ease.InQuad));
@@ -98,16 +99,16 @@ namespace Game
                 .SetTarget(transform);
         }
 
-        public Sequence PlayTravel(Transform target, EffectPolarity polarity, Action onArrive)
+        public Sequence PlayTravel(Actor target, EffectPolarity polarity, Action onArrive)
         {
             Follow(null);
             SetFx(polarity);
 
-            Vector3 start = transform.position;
-            Vector3 mid = Vector3.Lerp(start, target.position, 0.5f) + Vector3.up * _travelArc;
+            Vector3 destination = target.CardAnchorPosition;
+            Vector3 mid = Vector3.Lerp(transform.position, destination, 0.5f) + Vector3.up * _travelArc;
 
             Sequence sequence = DOTween.Sequence().SetTarget(transform);
-            sequence.Append(transform.DOPath(new[] { mid, target.position }, _travelDuration, PathType.CatmullRom)
+            sequence.Append(transform.DOPath(new[] { mid, destination }, _travelDuration, PathType.CatmullRom)
                 .SetEase(Ease.InOutQuad));
             sequence.Join(_flipper.DORotate(new Vector3(0f, 360f, 0f), _travelDuration, RotateMode.FastBeyond360)
                 .SetEase(Ease.OutQuad));

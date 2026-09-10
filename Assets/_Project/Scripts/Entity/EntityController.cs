@@ -8,6 +8,7 @@ namespace Game
         [SerializeField] private InputReader _inputs;
         [SerializeField] private EntityMotor _motor;
         [SerializeField] private TentacleAttack _attack;
+        [SerializeField] private ThrowAbility _throwAbility;
         [SerializeField] private StatusEffectController _statusController;
 
         private void Awake()
@@ -15,6 +16,7 @@ namespace Game
             if (_inputs == null) _inputs = GetComponent<InputReader>();
             if (_motor == null) _motor = GetComponent<EntityMotor>();
             if (_attack == null) _attack = GetComponent<TentacleAttack>();
+            if (_throwAbility == null) _throwAbility = GetComponent<ThrowAbility>();
             if (_statusController == null) _statusController = GetComponent<StatusEffectController>();
         }
 
@@ -49,6 +51,14 @@ namespace Game
         private void HandleActionPressed()
         {
             if (_statusController != null && _statusController.Has(StatusType.Stunned)) return;
+
+            // Tant que le pouvoir de lancer est actif, le bouton lance ; sinon il frappe.
+            if (_throwAbility != null && _throwAbility.IsActive)
+            {
+                _throwAbility.TryThrow();
+                return;
+            }
+
             if (_attack != null) _attack.TryAttack();
         }
     }

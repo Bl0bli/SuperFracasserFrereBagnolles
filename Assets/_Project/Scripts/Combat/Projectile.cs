@@ -18,6 +18,9 @@ namespace Game
         [Tooltip("Coche : les degats viennent de StatType.Damage du lanceur.")]
         [SerializeField] private bool _useOwnerDamageStat = true;
         [SerializeField, Min(0)] private int _damage = 10;
+
+        [Tooltip("Multiplie la stat Damage du lanceur. Un pneu frappe plus fort qu'un coup de tentacule.")]
+        [SerializeField, Min(0f)] private float _damageMultiplier = 1f;
         [SerializeField, Min(0f)] private float _knockback = 8f;
 
         [Header("Proprietaire")]
@@ -172,7 +175,7 @@ namespace Game
         {
             if (_useOwnerDamageStat && _owner != null && _owner.Stats != null)
             {
-                return Mathf.RoundToInt(_owner.Stats.Get(StatType.Damage));
+                return Mathf.RoundToInt(_owner.Stats.Get(StatType.Damage) * _damageMultiplier);
             }
 
             return _damage;

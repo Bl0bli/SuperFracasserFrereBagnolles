@@ -54,7 +54,7 @@ namespace Game
             CardVisual card = Instantiate(_cardVisualPrefab, origin, Quaternion.identity);
             card.SetSprite(back);
 
-            Sequence reveal = card.PlayReveal(collector.CardAnchor, effect.Icon, effect.Polarity);
+            Sequence reveal = card.PlayReveal(collector, effect.Icon, effect.Polarity);
 
             bool selfOnly = targets == null || targets.Count == 0 ||
                             (targets.Count == 1 && targets[0] == collector);
@@ -103,14 +103,12 @@ namespace Game
                 copy.SetSprite(effect.Icon);
 
                 CardVisual captured = copy;
-                float wait = delay;
 
-                DOVirtual.DelayedCall(wait, () =>
+                DOVirtual.DelayedCall(delay, () =>
                 {
                     if (captured == null || target == null) return;
 
-                    captured.PlayTravel(target.CardAnchor, effect.Polarity,
-                        () => captured.Dismiss(_distributedHold));
+                    captured.PlayTravel(target, effect.Polarity, () => captured.Dismiss(_distributedHold));
                 });
 
                 delay += _distributionStagger;

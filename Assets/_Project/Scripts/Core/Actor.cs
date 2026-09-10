@@ -13,15 +13,21 @@ namespace Game
         [Header(" Unity Components")]
         [SerializeField] private Rigidbody2D _rb;
 
-        [Tooltip("Point au-dessus de la tete ou vient se poser la carte ramassee.")]
+        [Tooltip("Marqueur optionnel : seule sa distance au vehicule est utilisee, sa rotation est ignoree.")]
         [SerializeField] private Transform _cardAnchor;
+
+        [Tooltip("Hauteur en unites monde si aucun marqueur n'est assigne.")]
+        [SerializeField, Min(0f)] private float _cardAnchorHeight = 2f;
 
         public FactionType Faction => _faction;
         public Health Health => _health;
         public StatBlock Stats => _stats;
         public StatusEffectController StatusController => _statusController;
         public Rigidbody2D Rb => _rb;
-        public Transform CardAnchor => _cardAnchor != null ? _cardAnchor : transform;
+        public Vector3 CardAnchorPosition => transform.position + Vector3.up * CardAnchorHeight;
+
+        private float CardAnchorHeight =>
+            _cardAnchor != null ? _cardAnchor.localPosition.magnitude : _cardAnchorHeight;
 
         private void Awake()
         {

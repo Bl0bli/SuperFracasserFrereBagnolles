@@ -13,16 +13,15 @@ namespace Game
             if (health == null)
             {
                 health = GetComponentInParent<Health>();
-                if (health != null)
-                {
-                    healthSlider.maxValue = health.Max;
-                    healthSlider.value = health.getCurrentHealth();
-                }
+                if (health == null) return;
             }
-            else
+            
+            if (!Mathf.Approximately(healthSlider.maxValue, health.Max))
             {
-                healthSlider.value = health.getCurrentHealth();
+                healthSlider.maxValue = health.Max;
             }
+
+            healthSlider.value = health.getCurrentHealth();
         }
 
         public void UpdateSlider(float value) //mettre la valeur temps réel des vies dans le slider
