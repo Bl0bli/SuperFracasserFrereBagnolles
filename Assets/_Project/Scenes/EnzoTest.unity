@@ -332,8 +332,8 @@ MonoBehaviour:
   - {fileID: 1986909331}
   - {fileID: 1831780422}
   _cardDefinitions:
-  - {fileID: 11400000, guid: d00d8ef3298a87a418d1f614f12eee26, type: 2}
-  - {fileID: 11400000, guid: bcf7ba4115b854d47a74707bd55489ce, type: 2}
+  - {fileID: 11400000, guid: e3b05a3e4af781840aac6feafb278345, type: 2}
+  - {fileID: 11400000, guid: b4e4a4fc4f630df46ae883cb422b8c9f, type: 2}
   _cardPrefab: {fileID: 998838688307921736, guid: 3a0104e22936e7b4081e162a95045ac3, type: 3}
 --- !u!1 &657256265
 GameObject:
@@ -748,6 +748,8 @@ GameObject:
   - component: {fileID: 1437663156}
   - component: {fileID: 1437663152}
   - component: {fileID: 1437663155}
+  - component: {fileID: 1437663158}
+  - component: {fileID: 1437663157}
   m_Layer: 0
   m_Name: ------------- MANAGERS -----------------
   m_TagString: Untagged
@@ -867,6 +869,66 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _verboseLogs: 1
+--- !u!61 &1437663157
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437663151}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 17.82, y: 10.15}
+  m_EdgeRadius: 0
+--- !u!114 &1437663158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437663151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36cc7f4fcaca9ae48a4d138c58a69215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.ArenaBounds
+  _area: {fileID: 1437663157}
+  _padding: 1
 --- !u!1 &1465321655
 GameObject:
   m_ObjectHideFlags: 0
