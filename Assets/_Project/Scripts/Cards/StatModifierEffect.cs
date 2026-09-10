@@ -3,15 +3,20 @@ using UnityEngine;
 namespace Game
 {
     [CreateAssetMenu(fileName = "StatModifierEffect", menuName = "Scriptable Objects/CardEffect/StatModifierEffect")]
-
-
-public class StatModifierEffect : CardEffect
-{
-    public override void Apply(Actor Target)
+    
+    public class StatModifierEffect : CardEffect
     {
-       //core script pour le changement de satistique 
+        public StatType Stats;
+        public ModifierMode Mode;
+        public override void Apply(Actor target)
+        {
+            StatModifier modifier = new StatModifier();
+            modifier.Duration = _duration;
+            modifier.Value = _power;
+            modifier.Modifier = Mode;
+            modifier.Stats = Stats;
+            
+            target.Stats.AddModifier(modifier);
+        }
     }
-    //private StateType stat; TODO retirer les comm
-    //private ModifierMode mode;
-}
 }

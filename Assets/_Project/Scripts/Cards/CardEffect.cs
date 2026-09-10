@@ -5,9 +5,9 @@ namespace Game
     
 public abstract class CardEffect : ScriptableObject
 {
-    public abstract void Apply(Actor Target);
-    private float power;
-    private float duration;
+    public abstract void Apply(Actor target);
+    [SerializeField] protected float _power;
+    [SerializeField] protected float _duration;
     
 }
 }

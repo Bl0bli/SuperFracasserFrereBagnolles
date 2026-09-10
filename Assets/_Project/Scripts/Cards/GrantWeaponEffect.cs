@@ -7,7 +7,7 @@ namespace Game
 
 public class GrantWeaponEffect : CardEffect
 {
-    public override void Apply(Actor Target)
+    public override void Apply(Actor target)
     {
         //Core Script pour l'obtention d'une arme au joueur 
     }
