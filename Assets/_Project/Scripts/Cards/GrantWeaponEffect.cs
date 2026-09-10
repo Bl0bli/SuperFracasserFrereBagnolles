@@ -7,11 +7,13 @@ namespace Game
 
 public class GrantWeaponEffect : CardEffect
 {
+    WeaponSlot weaponSlot = new WeaponSlot(); 
     public override void Apply(Actor Target)
     {
-        //Core Script pour l'obtention d'une arme au joueur 
+        //Core Script pour l'obtention d'une arme au joueur
+        weaponSlot.weaponEquipped = weapon;
     }
-    //private WeaponDefinition weapon; TODO retirer les comm
+    private WeaponDefinition weapon;
 }
 
 }
