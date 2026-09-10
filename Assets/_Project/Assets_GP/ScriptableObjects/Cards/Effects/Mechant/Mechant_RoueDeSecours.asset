@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39244093ffe5f7841b9864f7cae6a0be, type: 3}
+  m_Name: Mechant_RoueDeSecours
+  m_EditorClassIdentifier: Game.Runtime::Game.GrantThrowEffect
+  _target: 0
+  _cardSprite: {fileID: 361797287486685399, guid: f907d8e1a814e5b4c9d66816a0c68aa0, type: 3}
+  _verboseLogs: 1
+  _projectile: {fileID: 1657229896398572948, guid: 1ac5f953f78928944a551a69abf3b5c5, type: 3}
+  _duration: 8
+  _cooldown: 0.5

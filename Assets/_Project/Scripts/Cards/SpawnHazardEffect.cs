@@ -12,8 +12,7 @@ namespace Game
         [Tooltip("Nombre d'objets semes a chaque ramassage.")]
         [SerializeField, Min(1)] private int _count = 3;
 
-        [Tooltip("Rayon de dispersion autour du ramasseur si aucun ArenaBounds n'est present " +
-                 "dans la scene.")]
+        [Tooltip("Rayon de dispersion autour du ramasseur si aucun ArenaBounds n'est present.")]
         [SerializeField, Min(0f)] private float _fallbackRadius = 6f;
 
         protected override List<Actor> ResolveTargets(Actor collector)
@@ -31,7 +30,10 @@ namespace Game
 
             for (int i = 0; i < _count; i++)
             {
-                Instantiate(_hazardPrefab, PickPosition(collector), Quaternion.identity);
+                GameObject spawned = Instantiate(_hazardPrefab, PickPosition(collector), Quaternion.identity);
+
+                IHazard hazard = spawned.GetComponent<IHazard>();
+                if (hazard != null) hazard.Initialize(collector);
             }
         }
 

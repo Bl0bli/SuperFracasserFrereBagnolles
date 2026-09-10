@@ -1,17 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Game
 {
     public class StatusEffectController : MonoBehaviour
     {
-        private readonly Dictionary<StatusType, float> _activeStatus = new Dictionary<StatusType, float>();
+        [SerializeField] private Actor _actor;
 
-        // on ne modifie pas le dictionnaire pendant qu'on l'enumere.
+        private readonly Dictionary<StatusType, float> _activeStatus = new Dictionary<StatusType, float>();
         private readonly List<StatusType> _buffer = new List<StatusType>();
 
         public event Action<StatusType> OnStatusChanged;
+
+        public string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
+
+        private void Awake()
+        {
+            if (_actor == null) _actor = GetComponent<Actor>();
+        }
 
         private void Update()
         {
@@ -26,7 +34,7 @@ namespace Game
 
                 if (_activeStatus[status] <= 0f)
                 {
-                    Remove(status);
+                    RemoveInternal(status);
                 }
             }
         }
@@ -42,13 +50,23 @@ namespace Game
             return _activeStatus.ContainsKey(type);
         }
 
+        public float Remaining(StatusType type)
+        {
+            return _activeStatus.TryGetValue(type, out float value) ? value : 0f;
+        }
+
         public void Remove(StatusType type)
         {
-            if (Has(type))
-            {
-                _activeStatus.Remove(type);
-                OnStatusChanged?.Invoke(type);
-            }
+            RemoveInternal(type);
+        }
+
+        private void RemoveInternal(StatusType type)
+        {
+            if (!Has(type)) return;
+
+            _activeStatus.Remove(type);
+            OnStatusChanged?.Invoke(type);
+            
         }
     }
 }

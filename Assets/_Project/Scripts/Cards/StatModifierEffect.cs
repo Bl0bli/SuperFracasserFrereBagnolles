@@ -11,8 +11,9 @@ namespace Game
         [FormerlySerializedAs("Stats")]
         [SerializeField] private StatType _stat = StatType.MoveSpeed;
 
-        [Tooltip("Additive : la valeur s'ajoute. Multiply : la valeur est un pourcentage, " +
-                 "0.5 signifie +50 %, -0.5 signifie -50 %.")]
+        [Tooltip("Additive : la valeur s'ajoute a la stat de base. " +
+                 "Multiply : la valeur est un facteur, 0.2 divise la stat par 5, " +
+                 "1.5 l'augmente de moitie. Ne jamais laisser 0 en Multiply.")]
         [FormerlySerializedAs("Mode")]
         [SerializeField] private ModifierMode _mode = ModifierMode.Multiply;
 
@@ -29,7 +30,7 @@ namespace Game
                 Debug.LogWarning("[StatModifierEffect] " + target.name + " n'a pas de StatBlock.", target);
                 return;
             }
-
+            
             target.Stats.AddModifier(new StatModifier
             {
                 Stats = _stat,

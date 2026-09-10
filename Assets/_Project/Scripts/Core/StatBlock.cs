@@ -7,10 +7,18 @@ namespace Game
     public class StatBlock : MonoBehaviour
     {
         [SerializeField] private CharacterStats _baseStats;
+        [SerializeField] private Actor _actor;
 
         private readonly List<StatModifier> _modifiers = new List<StatModifier>();
 
         public IReadOnlyList<StatModifier> Modifiers => _modifiers;
+
+        public string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
+
+        private void Awake()
+        {
+            if (_actor == null) _actor = GetComponent<Actor>();
+        }
 
         public void SetBaseStats(CharacterStats stats)
         {
@@ -26,7 +34,7 @@ namespace Game
         public float Get(StatType stat)
         {
             float additive = 0f;
-            float multiplier = 0f;
+            float factor = 1f;
 
             for (int i = 0; i < _modifiers.Count; i++)
             {
@@ -39,10 +47,11 @@ namespace Game
                 }
                 else
                 {
-                    multiplier += m.Value;
+                    factor *= m.Value;
                 }
             }
-            return (GetBaseStat(stat) + additive) * (1f + multiplier);
+
+            return (GetBaseStat(stat) + additive) * factor;
         }
 
         public void AddModifier(StatModifier modifier)
@@ -56,10 +65,11 @@ namespace Game
 
             for (int i = _modifiers.Count - 1; i >= 0; i--)
             {
-                if (ReferenceEquals(_modifiers[i].Source, source))
-                {
-                    _modifiers.RemoveAt(i);
-                }
+                if (!ReferenceEquals(_modifiers[i].Source, source)) continue;
+
+                StatType stat = _modifiers[i].Stats;
+
+                _modifiers.RemoveAt(i);
             }
         }
 

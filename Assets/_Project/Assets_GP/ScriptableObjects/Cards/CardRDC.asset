@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d38b53fd4f014447bdfc249c4719240, type: 3}
+  m_Name: CardRDC
+  m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
+  ID: 
+  SpawnWeight: 1
+  _playerEffect: {fileID: 11400000, guid: 3bfe8f2d10a178344aa641009d2b2f8c, type: 2}
+  _entityEffect: {fileID: 11400000, guid: b19399d68fee14e4e9a616ab146b3b34, type: 2}
