@@ -2,16 +2,14 @@ using UnityEngine;
 
 namespace Game
 {
-[CreateAssetMenu(fileName = "ApllyStatusEffect", menuName = "Scriptable Objects/CardEffect/ApllyStatusEffect")]
+    [CreateAssetMenu(fileName = "ApllyStatusEffect", menuName = "Scriptable Objects/CardEffect/ApllyStatusEffect")]
 
-public class ApplyStatusEffect : CardEffect
-{
-    public override void Apply(Actor Target)
+    public class ApplyStatusEffect : CardEffect
     {
-        //core script pour le changement de statue
-        
+        [SerializeField] private StatusType _status;
+        public override void Apply(Actor target)
+        {
+            target.StatusController.Apply(_status, _duration);   
+        }
     }
-    [SerializeField]
-    private StatusType status;
-}
 }

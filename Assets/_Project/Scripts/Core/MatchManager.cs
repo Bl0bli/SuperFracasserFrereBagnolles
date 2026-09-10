@@ -52,6 +52,8 @@ namespace Game
         public int Bornes => _bornes;
         public bool CanStart => _state == MatchState.Warmup && _players.Count >= MinPlayers;
         
+        public MatchSettings Settings => _settings;
+        
         #endregion
 
 

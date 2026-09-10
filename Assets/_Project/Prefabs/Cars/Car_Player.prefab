@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1672725086407284784}
   - component: {fileID: 8270725467742296289}
   - component: {fileID: 85208216993992993}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7669810167824773568}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StatusFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: -8857201070689284479}
   - component: {fileID: 3413458932828728702}
   - component: {fileID: 9083904219997179498}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Car_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 7240669381456416668}
   - component: {fileID: 970786976836302622}
   - component: {fileID: 3363322180896976082}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 3287491348892941679}
   - component: {fileID: 4837487147004860808}
   - component: {fileID: 5471778003431796877}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hitbox_TentacleAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +760,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2388107564636066599}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2,23 +2,22 @@ using UnityEngine;
 
 namespace Game
 {
-    
-
-public class CardDefinition
-{
-   public string id;
-   public int spawnWeight;
-   private CardEffect playerEffect;
-   private CardEffect entityEffect;
-
-   public CardEffect GetEffect(FactionType f)
-   {
-    if (f == FactionType.Car)
+    [CreateAssetMenu(fileName = "CardDefinition", menuName = "ScriptableObject/CardDefinition")]
+    public class CardDefinition : ScriptableObject
     {
-        return playerEffect;
+       public string ID;
+       public int SpawnWeight;
+       [SerializeField] CardEffect _playerEffect;
+       [SerializeField] CardEffect _entityEffect;
+    
+       public CardEffect GetEffect(FactionType f)
+       {
+            if (f == FactionType.Car)
+            {
+                return _playerEffect;
+            }
+            return _entityEffect;
+        }
+    
     }
-    return entityEffect;
-}
-
-}
 }
