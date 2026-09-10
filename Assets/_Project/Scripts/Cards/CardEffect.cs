@@ -1,14 +1,100 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
 {
-    
-public abstract class CardEffect : ScriptableObject
-{
-    public abstract void Apply(Actor target);
-    [SerializeField] protected float _power;
-    [SerializeField] protected float _duration;
-    
-}
-}
+    public abstract class CardEffect : ScriptableObject
+    {
+        [Header("Ciblage")]
+        [Tooltip("Qui subit l'effet. Self = le ramasseur. Cars = les voitures. " +
+                 "Cthulhu = l'entite. RandomCar = une voiture au hasard. Everyone = tout le monde.")]
+        [SerializeField] protected EffectTarget _target = EffectTarget.Self;
 
+        public EffectTarget Target => _target;
+
+        public void Apply(Actor collector)
+        {
+            if (collector == null)
+            {
+                Debug.LogError("[CardEffect] " + name + " applique sans ramasseur.", this);
+                return;
+            }
+
+            List<Actor> targets = ResolveTargets(collector);
+
+            for (int i = 0; i < targets.Count; i++)
+            {
+                if (targets[i] != null) ApplyTo(targets[i], collector);
+            }
+        }
+
+        protected abstract void ApplyTo(Actor target, Actor collector);
+
+        protected virtual List<Actor> ResolveTargets(Actor collector)
+        {
+            List<Actor> buffer = new List<Actor>();
+            MatchManager match = MatchManager.Instance;
+
+            if (match == null)
+            {
+                Debug.LogWarning("[CardEffect] Aucun MatchManager : " + name + " s'applique au ramasseur.", this);
+                buffer.Add(collector);
+                return buffer;
+            }
+
+            switch (_target)
+            {
+                case EffectTarget.Self:
+                    AddAlive(buffer, collector);
+                    break;
+
+                case EffectTarget.Cars:
+                    AddAlive(buffer, match.Cars);
+                    break;
+
+                case EffectTarget.Cthulhu:
+                    AddAlive(buffer, match.Cthulhu);
+                    break;
+
+                case EffectTarget.RandomCar:
+                    AddRandomCar(buffer, match, collector);
+                    break;
+
+                case EffectTarget.Everyone:
+                    AddAlive(buffer, match.Players);
+                    break;
+            }
+
+            return buffer;
+        }
+
+        private static void AddAlive(List<Actor> buffer, IReadOnlyList<Actor> source)
+        {
+            if (source == null) return;
+
+            for (int i = 0; i < source.Count; i++)
+            {
+                AddAlive(buffer, source[i]);
+            }
+        }
+
+        private static void AddAlive(List<Actor> buffer, Actor actor)
+        {
+            if (actor == null) return;
+            if (actor.Health != null && !actor.Health.IsAlive) return;
+
+            buffer.Add(actor);
+        }
+
+        private static void AddRandomCar(List<Actor> buffer, MatchManager match, Actor collector)
+        {
+            List<Actor> candidates = new List<Actor>();
+            AddAlive(candidates, match.Cars);
+
+            if (candidates.Count > 1) candidates.Remove(collector);
+            if (candidates.Count == 0) return;
+
+            buffer.Add(candidates[Random.Range(0, candidates.Count)]);
+        }
+    }
+}

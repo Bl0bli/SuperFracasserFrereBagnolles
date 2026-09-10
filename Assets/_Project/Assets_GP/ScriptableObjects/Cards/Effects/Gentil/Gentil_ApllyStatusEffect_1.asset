@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfabd426ab38d64dbbefd040bd2f04f, type: 3}
   m_Name: Gentil_ApllyStatusEffect_1
   m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
-  _power: 2
-  _duration: 10
-  _status: 1
+  _target: 2
+  _status: 2
+  _duration: 3

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce447c56d302ea240b4bff44d3e06c8d, type: 3}
   m_Name: Gentil_StatModifierEffect_1
   m_EditorClassIdentifier: Game.Runtime::Game.StatModifierEffect
-  _power: -2
-  _duration: 10
-  Stats: 1
-  Mode: 0
+  _target: 0
+  _stat: 1
+  _mode: 1
+  _value: 2
+  _duration: 5

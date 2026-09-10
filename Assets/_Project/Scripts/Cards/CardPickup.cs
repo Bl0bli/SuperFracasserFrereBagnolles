@@ -1,33 +1,46 @@
-using System;
 using UnityEngine;
 
 namespace Game
 {
     public class CardPickup : MonoBehaviour, IPickup
     {
-        private CardDefinition _cardDef;
-        
-        private bool _consummed = false;
+        [SerializeField] private CardDefinition _cardDef;
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            Actor actor = other.GetComponentInParent<Actor>(); //attention à ne pas reproduire, ceci a été effectué par un professionnel
-            if (actor != null)
-            {
-                _cardDef.GetEffect(actor.Faction).Apply(actor);
-                _consummed = true;
-            }
-            Destroy(gameObject);
-        }
+        private bool _consummed;
 
-        public void OnPickedUp(Actor collector)
-        {
-            throw new NotImplementedException();
-        }
+        public CardDefinition Definition => _cardDef;
 
         public void SetCardDefinition(CardDefinition card)
         {
             _cardDef = card;
+        }
+
+        public void OnPickedUp(Actor collector)
+        {
+            if (_consummed) return;
+            if (_cardDef == null)
+            {
+                Debug.LogError("[CardPickup] " + name + " n'a pas de CardDefinition.", this);
+                return;
+            }
+            CardEffect effect = _cardDef.GetEffect(collector.Faction);
+            if (effect == null)
+            {
+                Debug.LogWarning("[CardPickup] " + _cardDef.ID + " n'a pas d'effet pour la faction " +
+                                 collector.Faction + ".", this);
+                return;
+            }
+            _consummed = true;
+            effect.Apply(collector);
+            Destroy(gameObject);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            Actor actor = other.GetComponentInParent<Actor>(); //attention à ne pas reproduire, ceci a été effectué par un professionnel
+            if (actor == null) return;
+
+            OnPickedUp(actor);
         }
     }
 }
