@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e03aee94e47412f47bafe2d77f74931d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.MatchManager
-  _settings: {fileID: 0}
+  _settings: {fileID: 11400000, guid: 7b177fccfc116a34aa715d95154a58fb, type: 2}
   _onMatchStarted:
     m_PersistentCalls:
       m_Calls: []
