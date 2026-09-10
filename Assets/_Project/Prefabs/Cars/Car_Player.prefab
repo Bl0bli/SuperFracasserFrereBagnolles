@@ -887,8 +887,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0048366785, y: -0.0048366785}
-  m_Size: {x: 1.5930498, y: 2.5960472}
+  m_Offset: {x: 0.0125924945, y: 0}
+  m_Size: {x: 1.3061746, y: 2.6}
   m_Direction: 0
 --- !u!70 &9083904219997179498
 CapsuleCollider2D:
@@ -924,8 +924,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Offset: {x: 0.016790032, y: 0}
+  m_Size: {x: 1.2809896, y: 2.6}
   m_Direction: 0
 --- !u!114 &9113923994999369825
 MonoBehaviour:
@@ -1041,7 +1041,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: c1b76b3dbe2a384459df0145eb0f8768, type: 3}
+  m_Sprite: {fileID: 3048718562151143312, guid: 01277adbc536fcb489f76e889a24f0cd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
