@@ -70,5 +70,10 @@ namespace Game
                 OnDied?.Invoke(_actor);
             }
         }
+
+        public float getCurrentHealth() //retourne la vie actuelle de l'acteur pour DisplayHealth
+        {
+            return _current;
+        }
     }
 }

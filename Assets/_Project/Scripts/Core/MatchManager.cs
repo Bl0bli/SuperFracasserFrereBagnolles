@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using TMPro;
 
 namespace Game
 {
@@ -56,6 +58,8 @@ namespace Game
         
         #endregion
 
+        [Header("UI")]
+        [SerializeField] private TMP_Text _countdownText;
 
         private int MinPlayers => _settings != null ? _settings.MinPlayers : 2;
         private int CountdownSeconds => _settings != null ? _settings.CountdownSeconds : 3;
@@ -182,6 +186,7 @@ namespace Game
             Log("Roles distribues : " + _cars.Count + " voiture(s) contre 1 entite. Decompte...");
             for (int i = CountdownSeconds; i > 0; i--)
             {
+                _countdownText.text = i.ToString();
                 Log("Decompte : " + i);
                 OnCountdownTick?.Invoke(i);
                 yield return new WaitForSeconds(1f);
@@ -194,6 +199,7 @@ namespace Game
             SetState(MatchState.Playing);
             OnMatchStarted?.Invoke();
             _onMatchStarted?.Invoke();
+            _countdownText.gameObject.SetActive(false);
         }
 
         private void HandleActorDied(Actor actor)
@@ -279,5 +285,15 @@ namespace Game
         {
             if (_verboseLogs) Debug.Log("[MatchManager] " + message, this);
         }
+        public float getCurrentTime() //retourne le temps restant du match pour DisplayTimer
+        {
+            return _remainingTime;
+        }
+
+        public int getBornes() //retourne le nombre de bornes pour DisplayBorne
+        {
+            return _bornes;
+        }
+        
     }
 }
