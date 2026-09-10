@@ -21,6 +21,9 @@ namespace Game
         [SerializeField] private UnityEvent _onMatchEnded;
 
         private readonly List<Actor> _players = new List<Actor>();
+
+        // Tous les acteurs instancies, morts compris : sert au nettoyage entre deux parties.
+        private readonly List<Actor> _spawned = new List<Actor>();
         private readonly List<Actor> _cars = new List<Actor>();
         private Actor _cthulhu;
         private MatchState _state = MatchState.Warmup;
@@ -38,6 +41,8 @@ namespace Game
         public event Action<FactionType> OnMatchEnded;
         public event Action<int> OnCountdownTick;
         public event Action<MatchState> OnStateChanged;
+        
+        public event Action OnLobbyReset;
 
         #endregion
         
@@ -110,6 +115,7 @@ namespace Game
             if (actor == null || _players.Contains(actor)) return;
 
             _players.Add(actor);
+            if (!_spawned.Contains(actor)) _spawned.Add(actor);
 
             if (actor.Health != null)
             {
@@ -152,6 +158,54 @@ namespace Game
             OnBornesChanged?.Invoke(faction, faction == FactionType.Cthulhu ? _entityBornes : _carBornes);
 
             EvaluateVictory();
+        }
+        public void ResetToLobby()
+        {
+            StopAllCoroutines();
+
+            ClearArena();
+            ClearPlayers();
+
+            _entityBornes = 0;
+            _carBornes = 0;
+            _remainingTime = 0f;
+            _lastTickedSecond = -1;
+
+            SetState(MatchState.Warmup);
+            OnLobbyReset?.Invoke();
+        }
+
+        private void ClearPlayers()
+        {
+            foreach (Actor actor in _spawned)
+            {
+                if (actor == null) continue;
+
+                if (actor.Health != null) actor.Health.OnDied -= HandleActorDied;
+                Destroy(actor.gameObject);
+            }
+
+            _spawned.Clear();
+            _players.Clear();
+            _cars.Clear();
+            _cthulhu = null;
+        }
+
+        private static void ClearArena()
+        {
+            DestroyAll(FindObjectsByType<CardPickup>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<BornePickUp>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<Projectile>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<OilPuddle>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<CardVisual>(FindObjectsSortMode.None));
+        }
+
+        private static void DestroyAll<T>(T[] items) where T : Component
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null) Destroy(items[i].gameObject);
+            }
         }
 
         private IEnumerator StartSequence()
