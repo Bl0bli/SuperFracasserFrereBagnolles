@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Game
@@ -20,5 +21,15 @@ namespace Game
         [Tooltip("Total de bornes que l'entite doit atteindre pour gagner. " +
                  "0 desactive cette condition de victoire (phase cartes non implementee).")]
         [Range(0, 1000)] public int BorneGoal = 0;
-    }
+
+        [Header("Power Ups")] 
+        public bool RandomBetweenValues = false;
+        [Tooltip("Interval de temps régulier entre les spawns de carte")]
+        [Range(1, 20), ShowIf("RandomBetweenValues", false)] public float PowerUpInterval = 10f;
+        [Tooltip("Interval de temps min entre les spawns de carte")]
+        [Range(1, 20), ShowIf("RandomBetweenValues", true)] public float PowerUpIntervalMin = 5f;
+        [Tooltip("Interval de temps max entre les spawns de carte")]
+        [Range(1, 20), ShowIf("RandomBetweenValues", true)] public float PowerUpIntervalMax = 15f;
+        
+     }
 }
