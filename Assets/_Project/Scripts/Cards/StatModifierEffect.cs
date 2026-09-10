@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [CreateAssetMenu(fileName = "StatModifierEffect", menuName = "Scriptable Objects/StatModifierEffect")]
+    [CreateAssetMenu(fileName = "StatModifierEffect", menuName = "Scriptable Objects/CardEffect/StatModifierEffect")]
 
 
 public class StatModifierEffect : CardEffect

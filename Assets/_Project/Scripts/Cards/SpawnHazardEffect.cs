@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [CreateAssetMenu(fileName = "SpawnHazardEffect", menuName = "Scriptable Objects/SpawnHazardEffect")]
+    [CreateAssetMenu(fileName = "SpawnHazardEffect", menuName = "Scriptable Objects/CardEffect/SpawnHazardEffect")]
 
 
 public class SpawnHazardEffect : CardEffect

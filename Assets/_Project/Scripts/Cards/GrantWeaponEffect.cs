@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [CreateAssetMenu(fileName = "GrantWeaponEffect", menuName = "Scriptable Objects/GrantWeaponEffect")]
+    [CreateAssetMenu(fileName = "GrantWeaponEffect", menuName = "Scriptable Objects/CardEffect/GrantWeaponEffect")]
 
 
 public class GrantWeaponEffect : CardEffect
