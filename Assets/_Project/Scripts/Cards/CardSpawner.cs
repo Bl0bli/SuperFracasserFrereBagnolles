@@ -27,7 +27,7 @@ namespace Game
 
         private void PickWeightedCard()
         {
-            Debug.Log($"[CardSpawner] Picking card");
+            //Debug.Log($"[CardSpawner] Picking card");
             int totalWeight = 0;
             foreach (CardDefinition card in _cardDefinitions)
             {
@@ -53,14 +53,14 @@ namespace Game
             Instantiate(_cardPrefab, _spawnPoints[Random.Range(0, _spawnPoints.Count)].position, Quaternion.identity)
                 .GetComponent<CardPickup>().SetCardDefinition(card);
             
-            Debug.Log($"[CardSpawner] Spawned card {card.ID}");
+            //Debug.Log($"[CardSpawner] Spawned card {card.ID}");
         }
 
         private IEnumerator SpawnRoutine()
         {
             if (MatchManager.Instance.Settings.RandomBetweenValues)
             {
-                Debug.Log($"[CardSpawner] Random interval between {MatchManager.Instance.Settings.PowerUpIntervalMin} and {MatchManager.Instance.Settings.PowerUpIntervalMax}");
+                //Debug.Log($"[CardSpawner] Random interval between {MatchManager.Instance.Settings.PowerUpIntervalMin} and {MatchManager.Instance.Settings.PowerUpIntervalMax}");
                 while(MatchManager.Instance.State == MatchState.Playing)
                 {
                     PickWeightedCard();
@@ -69,7 +69,7 @@ namespace Game
             }
             else
             {
-                Debug.Log($"[CardSpawner] Fixed interval of {MatchManager.Instance.Settings.PowerUpInterval}");
+                //Debug.Log($"[CardSpawner] Fixed interval of {MatchManager.Instance.Settings.PowerUpInterval}");
                 while(MatchManager.Instance.State == MatchState.Playing)
                 {
                     PickWeightedCard();
