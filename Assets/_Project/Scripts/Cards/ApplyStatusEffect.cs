@@ -18,7 +18,7 @@ namespace Game
                 Debug.LogWarning("[ApplyStatusEffect] " + target.name + " n'a pas de StatusEffectController.", target);
                 return;
             }
-
+            
             target.StatusController.Apply(_status, _duration);
         }
     }

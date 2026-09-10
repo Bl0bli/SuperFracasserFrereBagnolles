@@ -109,10 +109,10 @@ namespace Game
 
             if (_logBodySettings)
             {
-                Debug.Log("[RoleBinder] " + name + " -> role " + faction +
+                /*Debug.Log("[RoleBinder] " + name + " -> role " + faction +
                           " | masse " + _rb.mass +
                           " | damping " + _rb.linearDamping +
-                          " | force de poussee " + (_stats.Get(StatType.Acceleration) * _rb.mass), this);
+                          " | force de poussee " + (_stats.Get(StatType.Acceleration) * _rb.mass), this);*/
             }
         }
 

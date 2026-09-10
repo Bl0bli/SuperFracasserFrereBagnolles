@@ -15,7 +15,7 @@ namespace Game
         protected override void ApplyTo(Actor target, Actor collector)
         {
             if (target.Health == null || !target.Health.IsAlive) return;
-
+            
             Vector2 direction = target.transform.position - collector.transform.position;
             if (direction.sqrMagnitude < 0.0001f) direction = Vector2.up;
 

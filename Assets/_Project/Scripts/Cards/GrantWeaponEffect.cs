@@ -17,7 +17,7 @@ namespace Game
                 Debug.LogError("[GrantWeaponEffect] " + name + " n'a pas de WeaponDefinition.", this);
                 return;
             }
-
+            
             // TODO armes : quand WeaponSlot sera un MonoBehaviour, remplacer par
             Debug.LogWarning("[GrantWeaponEffect] " + _weapon.name +
                              " non equipee : WeaponSlot pas encore un composant.", this);

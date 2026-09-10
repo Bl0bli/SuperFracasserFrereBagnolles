@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Game
@@ -10,7 +11,14 @@ namespace Game
                  "Cthulhu = l'entite. RandomCar = une voiture au hasard. Everyone = tout le monde.")]
         [SerializeField] protected EffectTarget _target = EffectTarget.Self;
 
+        [SerializeField] protected Sprite _cardSprite;
+
+        [Header("Debug")]
+        [Tooltip("Trace le ramasseur et la liste des cibles reellement touchees.")]
+        [SerializeField] private bool _verboseLogs = true;
+
         public EffectTarget Target => _target;
+        public Sprite CardSprite => _cardSprite;
 
         public void Apply(Actor collector)
         {
@@ -21,6 +29,11 @@ namespace Game
             }
 
             List<Actor> targets = ResolveTargets(collector);
+
+            if (targets.Count == 0)
+            {
+                return;
+            }
 
             for (int i = 0; i < targets.Count; i++)
             {

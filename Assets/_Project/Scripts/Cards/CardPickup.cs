@@ -3,8 +3,10 @@ using UnityEngine;
 namespace Game
 {
     public class CardPickup : MonoBehaviour, IPickup
-    {
-        [SerializeField] private CardDefinition _cardDef;
+    { 
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        private CardDefinition _cardDef;
 
         private bool _consummed;
 
@@ -32,6 +34,7 @@ namespace Game
             }
             _consummed = true;
             effect.Apply(collector);
+            Debug.Log("[CardPickup] " + "applied on " + effect.Target, this);
             Destroy(gameObject);
         }
 

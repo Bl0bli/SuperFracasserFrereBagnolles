@@ -28,7 +28,7 @@ namespace Game
                 Debug.LogError("[SpawnHazardEffect] " + name + " n'a pas de prefab.", this);
                 return;
             }
-
+            
             for (int i = 0; i < _count; i++)
             {
                 Instantiate(_hazardPrefab, PickPosition(collector), Quaternion.identity);
