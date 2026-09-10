@@ -8,6 +8,7 @@ namespace Game
         Stunned,
         Inverted,
         Shielded,
-        Silenced
+        Silenced,
+        MustKeepMoving
     }
 }

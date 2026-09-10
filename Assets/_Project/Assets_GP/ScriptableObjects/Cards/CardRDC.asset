@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d38b53fd4f014447bdfc249c4719240, type: 3}
-  m_Name: CardCrevaison
+  m_Name: CardRDC
   m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
   ID: 
   SpawnWeight: 1
-  _playerEffect: {fileID: 11400000, guid: 5be4216e78c857a49b9a3f9712174f5c, type: 2}
-  _entityEffect: {fileID: 11400000, guid: fbb10ae4a09f858489aba6356595ddcd, type: 2}
+  _playerEffect: {fileID: 11400000, guid: 3bfe8f2d10a178344aa641009d2b2f8c, type: 2}
+  _entityEffect: {fileID: 11400000, guid: b19399d68fee14e4e9a616ab146b3b34, type: 2}

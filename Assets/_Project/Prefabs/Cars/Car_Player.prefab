@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &593652759308584077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4190670336192381302}
+  m_Layer: 6
+  m_Name: Muzzl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4190670336192381302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593652759308584077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6685607666922448887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1962997449157554717
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,6 +175,8 @@ GameObject:
   - component: {fileID: 4169417015985768455}
   - component: {fileID: 6774020597594501111}
   - component: {fileID: 1329400388328583875}
+  - component: {fileID: 955015262147696908}
+  - component: {fileID: 4705750942970528347}
   - component: {fileID: 6477534547044891781}
   - component: {fileID: 6341875645189893098}
   - component: {fileID: -3086863590944868861}
@@ -180,6 +213,7 @@ Transform:
   - {fileID: 1672725086407284784}
   - {fileID: 3287491348892941679}
   - {fileID: 7669810167824773568}
+  - {fileID: 4190670336192381302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1492530235643644095
@@ -212,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.StatBlock
   _baseStats: {fileID: 11400000, guid: 7f01a040c7c18d74fa73970bcd94c935, type: 2}
+  _actor: {fileID: 1492530235643644095}
 --- !u!114 &5863626839501944623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +262,7 @@ MonoBehaviour:
   _stats: {fileID: 7828211015690683341}
   _actor: {fileID: 1492530235643644095}
   _knockback: {fileID: 0}
+  _shield: {fileID: 955015262147696908}
   _invulnDuration: 0.35
 --- !u!114 &4169417015985768455
 MonoBehaviour:
@@ -285,6 +321,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c60eb0f69b293a641834400511fe64b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.StatusEffectController
+  _actor: {fileID: 1492530235643644095}
+--- !u!114 &955015262147696908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918021216639941119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294a5e924ae279c47b879beb04fb6675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.ShieldController
+  _health: {fileID: 5863626839501944623}
+  _statusController: {fileID: 1329400388328583875}
+  _actor: {fileID: 1492530235643644095}
+  _verboseLogs: 0
+--- !u!114 &4705750942970528347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918021216639941119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be330a67ea5b4f24f8a1a9cdcb91e6de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.ThrowAbility
+  _projectilePrefab: {fileID: 1657229896398572948, guid: 3b37805201fc5f945ae68d0210b6a5a5, type: 3}
+  _actor: {fileID: 1492530235643644095}
+  _statusController: {fileID: 1329400388328583875}
+  _muzzle: {fileID: 4190670336192381302}
+  _muzzleOffset: 0.9
+  _verboseLogs: 0
 --- !u!114 &6477534547044891781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +371,10 @@ MonoBehaviour:
   _inputs: {fileID: 6774020597594501111}
   _motor: {fileID: 6341875645189893098}
   _statusController: {fileID: 1329400388328583875}
+  _throwAbility: {fileID: 0}
+  _actor: {fileID: 0}
+  _forcedThrottle: 0.6
+  _verboseLogs: 1
 --- !u!114 &6341875645189893098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +421,8 @@ MonoBehaviour:
   _motor: {fileID: -3086863590944868861}
   _attack: {fileID: 8608137586972267516}
   _statusController: {fileID: 1329400388328583875}
+  _actor: {fileID: 0}
+  _verboseLogs: 1
 --- !u!114 &8608137586972267516
 MonoBehaviour:
   m_ObjectHideFlags: 0

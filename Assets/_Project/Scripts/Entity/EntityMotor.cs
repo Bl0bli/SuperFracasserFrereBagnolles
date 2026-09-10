@@ -2,16 +2,19 @@ using UnityEngine;
 
 namespace Game
 {
-    //physique du méchant
     [RequireComponent(typeof(Rigidbody2D))]
     public class EntityMotor : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private StatBlock _stats;
 
-        [Tooltip("Decalage d'orientation du sprite. -90 si l'entite est dessinee pointant vers " +
-                 "le haut (+Y), 0 si elle pointe vers la droite (+X).")]
+        [Tooltip("Decalage d'orientation du sprite. -90 si le vehicule est dessine pointant vers " +
+                 "le haut (+Y), 0 s'il pointe vers la droite (+X).")]
         [SerializeField] private float _spriteAngleOffset = -90f;
+
+        [Tooltip("Force de freinage quand la vitesse depasse le plafond, par exemple apres " +
+                 "un ralentissement. 0 = on laisse simplement filer.")]
+        [SerializeField, Min(0f)] private float _overspeedBrake = 4f;
 
         private const float InputThreshold = 0.0001f;
 
@@ -23,6 +26,8 @@ namespace Game
 
         public void Drive(Vector2 command, float dt)
         {
+            _rb.linearDamping = _stats.Get(StatType.LinearDamping);
+
             if (command.sqrMagnitude <= InputThreshold)
             {
                 Decelerate(dt);
@@ -36,17 +41,25 @@ namespace Game
             AlignVelocity(direction);
             FaceDirection(direction, dt);
         }
-        
+
         private void Push(Vector2 direction, float throttle)
         {
             float max = _stats.Get(StatType.MoveSpeed) * throttle;
             float along = Vector2.Dot(_rb.linearVelocity, direction);
-            if (along >= max) return;
-            float force = _stats.Get(StatType.Acceleration) * _rb.mass * throttle;
-            _rb.AddForce(direction * force);
+            float mass = _rb.mass;
+
+            if (along < max)
+            {
+                _rb.AddForce(direction * (_stats.Get(StatType.Acceleration) * mass * throttle));
+                return;
+            }
+
+            if (_overspeedBrake > 0f)
+            {
+                _rb.AddForce(-direction * ((along - max) * mass * _overspeedBrake));
+            }
         }
 
-        //bullshit maths pour réduire les forces perpendiculaire
         private void AlignVelocity(Vector2 direction)
         {
             Vector2 velocity = _rb.linearVelocity;

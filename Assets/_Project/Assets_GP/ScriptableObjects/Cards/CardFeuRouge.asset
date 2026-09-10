@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
   ID: 
   SpawnWeight: 1
-  _playerEffect: {fileID: 11400000, guid: b622d458770419a439d7edf08322c20f, type: 2}
-  _entityEffect: {fileID: 11400000, guid: 91f3a1fc6e3748946a1bcfe1810089f5, type: 2}
+  _playerEffect: {fileID: 11400000, guid: a16850357492f9243a001b0c37be8df7, type: 2}
+  _entityEffect: {fileID: 11400000, guid: bc7a728cc67d1f847a1b9726c6a588ef, type: 2}

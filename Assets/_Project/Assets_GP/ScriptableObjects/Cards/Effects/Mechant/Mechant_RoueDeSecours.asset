@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dfabd426ab38d64dbbefd040bd2f04f, type: 3}
-  m_Name: Mechant_Crevaison
-  m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
-  _target: 1
+  m_Script: {fileID: 11500000, guid: 39244093ffe5f7841b9864f7cae6a0be, type: 3}
+  m_Name: Mechant_RoueDeSecours
+  m_EditorClassIdentifier: Game.Runtime::Game.GrantThrowEffect
+  _target: 0
   _cardSprite: {fileID: 361797287486685399, guid: f907d8e1a814e5b4c9d66816a0c68aa0, type: 3}
   _verboseLogs: 1
-  _status: 2
-  _duration: 5
+  _projectile: {fileID: 1657229896398572948, guid: 1ac5f953f78928944a551a69abf3b5c5, type: 3}
+  _duration: 8
+  _cooldown: 0.5

@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Mechant_FeuRouge
   m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
   _target: 1
+  _cardSprite: {fileID: 1036029774301873356, guid: a0268beed5df697408410e31e9a9450b, type: 3}
+  _verboseLogs: 1
   _status: 1
-  _duration: 3
+  _duration: 5

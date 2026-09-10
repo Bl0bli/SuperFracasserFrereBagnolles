@@ -9,9 +9,9 @@ namespace Game
         [SerializeField] private StatBlock _stats;
         [SerializeField] private Actor _actor;
         [SerializeField] private Knockback _knockback;
+        [SerializeField] private ShieldController _shield;
 
-        [Tooltip("Duree pendant laquelle l'acteur ne peut plus etre touche apres un coup. " +
-                 "Empeche un contact prolonge de vider les PV en une demi-seconde.")]
+        [Tooltip("Duree pendant laquelle l'acteur ne peut plus etre touche apres un coup.")]
         [SerializeField] private float _invulnDuration = 0.35f;
 
         private float _current;
@@ -32,9 +32,10 @@ namespace Game
             if (_stats == null) _stats = GetComponent<StatBlock>();
             if (_actor == null) _actor = GetComponent<Actor>();
             if (_knockback == null) _knockback = GetComponent<Knockback>();
+            if (_shield == null) _shield = GetComponent<ShieldController>();
             ResetToMax();
         }
-        
+
         public void ResetToMax()
         {
             _max = _stats.Get(StatType.MaxHealth);
@@ -57,9 +58,11 @@ namespace Game
         {
             if (!IsAlive || IsInvulnerable) return;
 
+            if (_shield != null && _shield.TryAbsorb(infos)) return;
+
             _current -= infos.Amount;
             _invulnUntil = Time.time + _invulnDuration;
-            
+
             if (_knockback != null) _knockback.Apply(infos.Direction, infos.Knockback);
 
             OnTakeDamage?.Invoke(infos);

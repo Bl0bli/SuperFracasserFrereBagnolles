@@ -12,6 +12,10 @@ namespace Game
                  "le haut (+Y), 0 s'il pointe vers la droite (+X).")]
         [SerializeField] private float _spriteAngleOffset = -90f;
 
+        [Tooltip("Force de freinage quand la vitesse depasse le plafond, par exemple apres " +
+                 "un ralentissement. 0 = on laisse simplement filer.")]
+        [SerializeField, Min(0f)] private float _overspeedBrake = 6f;
+
         private const float InputThreshold = 0.0001f;
 
         private void Awake()
@@ -22,6 +26,8 @@ namespace Game
 
         public void Drive(Vector2 command, float dt)
         {
+            _rb.linearDamping = _stats.Get(StatType.LinearDamping);
+
             if (command.sqrMagnitude <= InputThreshold)
             {
                 Decelerate(dt);
@@ -35,17 +41,23 @@ namespace Game
             AlignVelocity(direction);
             FaceDirection(direction, dt);
         }
-        
+
         private void Push(Vector2 direction, float throttle)
         {
             float max = _stats.Get(StatType.MoveSpeed) * throttle;
             float along = Vector2.Dot(_rb.linearVelocity, direction);
+            float mass = _rb.mass;
 
-            if (along >= max) return;
+            if (along < max)
+            {
+                _rb.AddForce(direction * (_stats.Get(StatType.Acceleration) * mass * throttle));
+                return;
+            }
 
-            // x mass : la stat d'acceleration garde le meme sens quelle que soit la masse.
-            float force = _stats.Get(StatType.Acceleration) * _rb.mass * throttle;
-            _rb.AddForce(direction * force);
+            if (_overspeedBrake > 0f)
+            {
+                _rb.AddForce(-direction * ((along - max) * mass * _overspeedBrake));
+            }
         }
 
         private void AlignVelocity(Vector2 direction)
