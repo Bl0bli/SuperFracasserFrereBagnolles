@@ -15,8 +15,8 @@ MonoBehaviour:
   MinPlayers: 2
   CountdownSeconds: 3
   MatchDuration: 180
-  BorneGoal: 0
-  RandomBetweenValues: 0
+  BorneGoal: 1000
+  RandomBetweenValues: 1
   PowerUpInterval: 10
   PowerUpIntervalMin: 5
   PowerUpIntervalMax: 15
