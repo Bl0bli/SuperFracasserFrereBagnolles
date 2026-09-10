@@ -6,7 +6,10 @@ namespace Game
     public class ApplyStatusEffect : CardEffect
     {
         [Header("Statut")]
-        [SerializeField] private StatusType _status;
+        [SerializeField] private StatusType _status = StatusType.Stunned;
+
+        [Tooltip("Duree du statut en secondes.")]
+        [SerializeField] private float _duration = 5f;
 
         protected override void ApplyTo(Actor target, Actor collector)
         {

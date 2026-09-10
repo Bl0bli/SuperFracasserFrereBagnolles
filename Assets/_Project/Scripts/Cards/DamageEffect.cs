@@ -2,12 +2,15 @@ using UnityEngine;
 
 namespace Game
 {
-
     [CreateAssetMenu(fileName = "DamageEffect", menuName = "Scriptable Objects/CardEffect/DamageEffect")]
     public class DamageEffect : CardEffect
     {
         [Header("Degats")]
-        [SerializeField] private float _knockback = 0f;
+        [SerializeField, Min(0)] private int _damage = 20;
+
+        [Tooltip("Impulsion de recul. La vitesse communiquee vaut cette force divisee " +
+                 "par la masse de la cible.")]
+        [SerializeField, Min(0f)] private float _knockback = 0f;
 
         protected override void ApplyTo(Actor target, Actor collector)
         {
@@ -18,7 +21,7 @@ namespace Game
 
             target.Health.TakeDamage(new DamageInfos
             {
-                Amount = Mathf.RoundToInt(_power),
+                Amount = _damage,
                 Type = DamageType.Melee,
                 Source = collector,
                 Direction = direction.normalized,

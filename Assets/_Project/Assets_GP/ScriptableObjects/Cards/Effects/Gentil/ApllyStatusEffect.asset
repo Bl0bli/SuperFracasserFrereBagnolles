@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfabd426ab38d64dbbefd040bd2f04f, type: 3}
   m_Name: ApllyStatusEffect
   m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
-  _power: 0
-  _duration: 5
-  _status: 0
+  _target: 2
+  _status: 1
+  _duration: 2

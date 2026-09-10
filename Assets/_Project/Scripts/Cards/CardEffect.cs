@@ -5,17 +5,9 @@ namespace Game
 {
     public abstract class CardEffect : ScriptableObject
     {
-        [Header("Valeurs")]
-        [Tooltip("Intensite de l'effet. Son sens depend de la sous-classe : degats, " +
-                 "multiplicateur de stat, nombre de flaques...")]
-        [SerializeField] protected float _power;
-
-        [Tooltip("Duree en secondes. Zero ou moins = permanent pour un modificateur de stat.")]
-        [SerializeField] protected float _duration;
-
         [Header("Ciblage")]
-        [Tooltip("Qui subit l'effet. Self = le ramasseur. Cars = les trois voitures. " +
-                 "Cthulhu = l'entite. RandomCar = une voiture au hasard.")]
+        [Tooltip("Qui subit l'effet. Self = le ramasseur. Cars = les voitures. " +
+                 "Cthulhu = l'entite. RandomCar = une voiture au hasard. Everyone = tout le monde.")]
         [SerializeField] protected EffectTarget _target = EffectTarget.Self;
 
         public EffectTarget Target => _target;
@@ -37,7 +29,7 @@ namespace Game
         }
 
         protected abstract void ApplyTo(Actor target, Actor collector);
-        
+
         protected virtual List<Actor> ResolveTargets(Actor collector)
         {
             List<Actor> buffer = new List<Actor>();
@@ -53,7 +45,7 @@ namespace Game
             switch (_target)
             {
                 case EffectTarget.Self:
-                    buffer.Add(collector);
+                    AddAlive(buffer, collector);
                     break;
 
                 case EffectTarget.Cars:
@@ -99,7 +91,6 @@ namespace Game
             List<Actor> candidates = new List<Actor>();
             AddAlive(candidates, match.Cars);
 
-            // On evite le ramasseur, sauf s'il est la seule voiture en vie.
             if (candidates.Count > 1) candidates.Remove(collector);
             if (candidates.Count == 0) return;
 

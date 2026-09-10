@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace Game
 {
-    /// <summary>
-    /// Declare la zone jouable. Sert a tirer des positions au hasard dans l'arene
-    /// pour les flaques, les roues et les cartes.
-    /// </summary>
     public class ArenaBounds : MonoBehaviour
     {
         public static ArenaBounds Instance { get; private set; }
@@ -48,7 +44,6 @@ namespace Game
             Vector2 min = new Vector2(b.min.x + _padding, b.min.y + _padding);
             Vector2 max = new Vector2(b.max.x - _padding, b.max.y - _padding);
 
-            // Une arene non rectangulaire a des trous dans sa bounding box : on retente.
             for (int i = 0; i < 12; i++)
             {
                 Vector2 candidate = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));

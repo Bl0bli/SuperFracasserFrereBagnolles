@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Game
 {
-    //equipe une arme
     [CreateAssetMenu(fileName = "GrantWeaponEffect", menuName = "Scriptable Objects/CardEffect/GrantWeaponEffect")]
     public class GrantWeaponEffect : CardEffect
     {
@@ -20,8 +19,8 @@ namespace Game
             }
 
             // TODO armes : quand WeaponSlot sera un MonoBehaviour, remplacer par
-            // target.GetComponent<WeaponSlot>()?.Equip(_weapon);
-            Debug.LogWarning("[GrantWeaponEffect] " + _weapon.name + " non equipee : WeaponSlot pas encore un composant.", this);
+            Debug.LogWarning("[GrantWeaponEffect] " + _weapon.name +
+                             " non equipee : WeaponSlot pas encore un composant.", this);
         }
     }
 }
