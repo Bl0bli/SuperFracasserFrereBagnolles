@@ -12,6 +12,9 @@ namespace Game
 
         public IReadOnlyList<StatModifier> Modifiers => _modifiers;
 
+        public event Action<StatModifier> OnModifierAdded;
+        public event Action<StatModifier> OnModifierRemoved;
+
         private void Awake()
         {
         }
@@ -52,6 +55,8 @@ namespace Game
 
         public void AddModifier(StatModifier modifier)
         {
+            OnModifierAdded?.Invoke(modifier);
+
             _modifiers.Add(modifier);
         }
 
@@ -63,9 +68,9 @@ namespace Game
             {
                 if (!ReferenceEquals(_modifiers[i].Source, source)) continue;
 
-                StatType stat = _modifiers[i].Stats;
-
+                StatModifier removed = _modifiers[i];
                 _modifiers.RemoveAt(i);
+                OnModifierRemoved?.Invoke(removed);
             }
         }
 
@@ -92,6 +97,7 @@ namespace Game
                 if (m.Duration <= 0f)
                 {
                     _modifiers.RemoveAt(i);
+                    OnModifierRemoved?.Invoke(m);
                 }
                 else
                 {

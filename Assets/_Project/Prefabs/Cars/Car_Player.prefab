@@ -609,6 +609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6685607666922448887}
   - component: {fileID: 1492530235643644095}
+  - component: {fileID: 5176637629998153940}
   - component: {fileID: 7828211015690683341}
   - component: {fileID: 5863626839501944623}
   - component: {fileID: 4169417015985768455}
@@ -678,6 +679,37 @@ MonoBehaviour:
   _rb: {fileID: 4026437147320491885}
   _cardAnchor: {fileID: 8447710149552377640}
   _cardAnchorHeight: 2
+--- !u!114 &5176637629998153940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918021216639941119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f58c72b603973049b7445cbf342e6e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.ActorJuice
+  _visuals: {fileID: 0}
+  _renderer: {fileID: 0}
+  _rb: {fileID: 0}
+  _health: {fileID: 0}
+  _stats: {fileID: 0}
+  _status: {fileID: 0}
+  _binder: {fileID: 0}
+  _stretchPerSpeed: 0.02
+  _maxStretch: 0.22
+  _stretchSmoothing: 9
+  _hitPunch: 0.45
+  _hitPunchDuration: 0.25
+  _hitColor: {r: 1, g: 1, b: 1, a: 1}
+  _bonusColor: {r: 0.45, g: 1, b: 0.6, a: 1}
+  _malusColor: {r: 0.75, g: 0.3, b: 1, a: 1}
+  _reactionPunch: 0.3
+  _flashDuration: 0.14
+  _spinTurns: 1.5
+  _spinDuration: 0.5
 --- !u!114 &7828211015690683341
 MonoBehaviour:
   m_ObjectHideFlags: 0
