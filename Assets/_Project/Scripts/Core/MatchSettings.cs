@@ -25,11 +25,11 @@ namespace Game
         [Header("Power Ups")] 
         public bool RandomBetweenValues = false;
         [Tooltip("Interval de temps régulier entre les spawns de carte")]
-        [Range(1, 20), ShowIf("RandomBetweenValues", false)] public float PowerUpInterval = 10f;
+        [Range(1, 20), HideIf("RandomBetweenValues")] public float PowerUpInterval = 10f;
         [Tooltip("Interval de temps min entre les spawns de carte")]
-        [Range(1, 20), ShowIf("RandomBetweenValues", true)] public float PowerUpIntervalMin = 5f;
+        [Range(1, 20), ShowIf("RandomBetweenValues")] public float PowerUpIntervalMin = 5f;
         [Tooltip("Interval de temps max entre les spawns de carte")]
-        [Range(1, 20), ShowIf("RandomBetweenValues", true)] public float PowerUpIntervalMax = 15f;
+        [Range(1, 20), ShowIf("RandomBetweenValues")] public float PowerUpIntervalMax = 15f;
         
      }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [CreateAssetMenu(fileName = "CardDefinition", menuName = "ScriptableObject/CardDefinition")]
+    [CreateAssetMenu(fileName = "CardDefinition", menuName = "Scriptable Objects/CardDefinition")]
     public class CardDefinition : ScriptableObject
     {
        public string ID;
