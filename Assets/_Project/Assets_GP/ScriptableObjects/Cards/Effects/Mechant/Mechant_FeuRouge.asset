@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce447c56d302ea240b4bff44d3e06c8d, type: 3}
-  m_Name: Mechant_StatModifierEffect_1
-  m_EditorClassIdentifier: Game.Runtime::Game.StatModifierEffect
+  m_Script: {fileID: 11500000, guid: 3dfabd426ab38d64dbbefd040bd2f04f, type: 3}
+  m_Name: Mechant_FeuRouge
+  m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
   _target: 1
-  _stat: 1
-  _mode: 1
-  _value: 0.5
-  _duration: 10
+  _status: 1
+  _duration: 3

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerSkinSet
   m_EditorClassIdentifier: Game.Runtime::Game.PlayerSkinSet
   _carSprites:
-  - {fileID: 21300000, guid: c1b76b3dbe2a384459df0145eb0f8768, type: 3}
-  _entitySprite: {fileID: 21300000, guid: c1b76b3dbe2a384459df0145eb0f8768, type: 3}
+  - {fileID: 21300000, guid: 4ff62c5413797ca429a1f10c5a0a239b, type: 3}
+  _entitySprite: {fileID: 21300000, guid: 6177275cec049f249a9f3aefd091f8fd, type: 3}
   _carTints:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.002518177, g: 0, b: 1, a: 1}

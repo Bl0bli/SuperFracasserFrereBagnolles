@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d38b53fd4f014447bdfc249c4719240, type: 3}
-  m_Name: CardDefinition
+  m_Name: CardFeuRouge
   m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
   ID: 
   SpawnWeight: 1
-  _playerEffect: {fileID: 11400000, guid: 5be4216e78c857a49b9a3f9712174f5c, type: 2}
-  _entityEffect: {fileID: 11400000, guid: 1b18488d40cbd1f44bc199673e4e4c2a, type: 2}
+  _playerEffect: {fileID: 11400000, guid: b622d458770419a439d7edf08322c20f, type: 2}
+  _entityEffect: {fileID: 11400000, guid: 91f3a1fc6e3748946a1bcfe1810089f5, type: 2}
