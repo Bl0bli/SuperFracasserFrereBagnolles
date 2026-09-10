@@ -2,18 +2,26 @@ using UnityEngine;
 
 namespace Game
 {
+    //equipe une arme
     [CreateAssetMenu(fileName = "GrantWeaponEffect", menuName = "Scriptable Objects/CardEffect/GrantWeaponEffect")]
-
-
-public class GrantWeaponEffect : CardEffect
-{
-    WeaponSlot weaponSlot = new WeaponSlot(); 
-    public override void Apply(Actor Target)
+    public class GrantWeaponEffect : CardEffect
     {
-        //Core Script pour l'obtention d'une arme au joueur
-        weaponSlot.weaponEquipped = weapon;
-    }
-    private WeaponDefinition weapon;
-}
+        [Header("Arme")]
+        [SerializeField] private WeaponDefinition _weapon;
 
+        public WeaponDefinition Weapon => _weapon;
+
+        protected override void ApplyTo(Actor target, Actor collector)
+        {
+            if (_weapon == null)
+            {
+                Debug.LogError("[GrantWeaponEffect] " + name + " n'a pas de WeaponDefinition.", this);
+                return;
+            }
+
+            // TODO armes : quand WeaponSlot sera un MonoBehaviour, remplacer par
+            // target.GetComponent<WeaponSlot>()?.Equip(_weapon);
+            Debug.LogWarning("[GrantWeaponEffect] " + _weapon.name + " non equipee : WeaponSlot pas encore un composant.", this);
+        }
+    }
 }

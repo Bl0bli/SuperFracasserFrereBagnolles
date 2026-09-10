@@ -3,19 +3,29 @@ using UnityEngine;
 namespace Game
 {
     [CreateAssetMenu(fileName = "StatModifierEffect", menuName = "Scriptable Objects/CardEffect/StatModifierEffect")]
-    
     public class StatModifierEffect : CardEffect
     {
+        [Header("Modificateur")]
         public StatType Stats;
         public ModifierMode Mode;
-        public override void Apply(Actor target)
+
+        protected override void ApplyTo(Actor target, Actor collector)
         {
-            StatModifier modifier = new StatModifier();
-            modifier.Duration = _duration;
-            modifier.Value = _power;
-            modifier.Modifier = Mode;
-            modifier.Stats = Stats;
-            
+            if (target.Stats == null)
+            {
+                Debug.LogWarning("[StatModifierEffect] " + target.name + " n'a pas de StatBlock.", target);
+                return;
+            }
+
+            StatModifier modifier = new StatModifier
+            {
+                Stats = Stats,
+                Modifier = Mode,
+                Value = _power,
+                Duration = _duration,
+                Source = this
+            };
+
             target.Stats.AddModifier(modifier);
         }
     }

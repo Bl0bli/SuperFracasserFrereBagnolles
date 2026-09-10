@@ -19,11 +19,16 @@ namespace Game
         private void FixedUpdate()
         {
             float dt = Time.fixedDeltaTime;
-            
-            if (_statusController != null && _statusController.Has(StatusType.Stunned))
+
+            if (_statusController != null)
             {
-                _motor.Drive(Vector2.zero, dt);
-                return;
+                _inputs.SetInverted(_statusController.Has(StatusType.Inverted));
+
+                if (_statusController.Has(StatusType.Stunned))
+                {
+                    _motor.Drive(Vector2.zero, dt);
+                    return;
+                }
             }
 
             _motor.Drive(_inputs.Move, dt);

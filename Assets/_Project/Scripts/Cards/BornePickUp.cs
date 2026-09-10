@@ -1,30 +1,32 @@
-using System;
 using UnityEngine;
 
 namespace Game
 {
     public class BornePickUp : MonoBehaviour, IPickup
     {
-        [SerializeField] private int _borneValue;
+        [SerializeField, Min(1)] private int _borneValue = 25;
 
-        private bool _consummed = false;
+        private bool _consummed;
 
-        private void OnTriggerEnter2D(Collider2D other)
+        public void OnPickedUp(Actor collector)
         {
-            Actor
-                actor = other.GetComponentInParent<Actor>(); //attention à ne pas reproduire, ceci a été effectué par un professionnel
-            if (actor != null && actor.Faction == FactionType.Cthulhu)
+            if (_consummed) return;
+            _consummed = true;
+
+            if (collector.Faction == FactionType.Cthulhu)
             {
-                MatchManager.Instance.AddBornes(_borneValue);
-                _consummed = true;
+                if (MatchManager.Instance != null) MatchManager.Instance.AddBornes(_borneValue);
             }
 
             Destroy(gameObject);
         }
 
-        public void OnPickedUp(Actor collector)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            throw new NotImplementedException();
+            Actor actor = other.GetComponentInParent<Actor>();
+            if (actor == null) return;
+
+            OnPickedUp(actor);
         }
     }
 }

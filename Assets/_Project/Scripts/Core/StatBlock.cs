@@ -7,9 +7,11 @@ namespace Game
     public class StatBlock : MonoBehaviour
     {
         [SerializeField] private CharacterStats _baseStats;
-        
-        private List<StatModifier> _modifiers = new List<StatModifier>();
-        
+
+        private readonly List<StatModifier> _modifiers = new List<StatModifier>();
+
+        public IReadOnlyList<StatModifier> Modifiers => _modifiers;
+
         public void SetBaseStats(CharacterStats stats)
         {
             if (stats == null)
@@ -26,8 +28,9 @@ namespace Game
             float additive = 0f;
             float multiplier = 0f;
 
-            foreach (StatModifier m in _modifiers)
+            for (int i = 0; i < _modifiers.Count; i++)
             {
+                StatModifier m = _modifiers[i];
                 if (m.Stats != stat) continue;
 
                 if (m.Modifier == ModifierMode.Additive)
@@ -39,8 +42,56 @@ namespace Game
                     multiplier += m.Value;
                 }
             }
-            
             return (GetBaseStat(stat) + additive) * (1f + multiplier);
+        }
+
+        public void AddModifier(StatModifier modifier)
+        {
+            _modifiers.Add(modifier);
+        }
+
+        public void RemoveModifier(object source)
+        {
+            if (source == null) return;
+
+            for (int i = _modifiers.Count - 1; i >= 0; i--)
+            {
+                if (ReferenceEquals(_modifiers[i].Source, source))
+                {
+                    _modifiers.RemoveAt(i);
+                }
+            }
+        }
+
+        public bool HasModifierFrom(object source)
+        {
+            for (int i = 0; i < _modifiers.Count; i++)
+            {
+                if (ReferenceEquals(_modifiers[i].Source, source)) return true;
+            }
+
+            return false;
+        }
+
+        private void Update()
+        {
+            for (int i = _modifiers.Count - 1; i >= 0; i--)
+            {
+                StatModifier m = _modifiers[i];
+
+                if (m.IsPermanent) continue;
+
+                m.Duration -= Time.deltaTime;
+
+                if (m.Duration <= 0f)
+                {
+                    _modifiers.RemoveAt(i);
+                }
+                else
+                {
+                    _modifiers[i] = m;
+                }
+            }
         }
 
         private float GetBaseStat(StatType stat)
@@ -83,38 +134,6 @@ namespace Game
                     return _baseStats.AttackCooldown;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(stat), stat, null);
-            }
-        }
-
-        public void AddModifier(StatModifier modifier)
-        {
-            _modifiers.Add(modifier);
-        }
-
-        public void RemoveModifier(StatModifier modifier)
-        {
-            if(_modifiers.Contains(modifier))
-                _modifiers.Remove(modifier);
-            else
-                Debug.LogWarning("[StatBlock] RemoveModifier appele avec un modifier non present sur " + name + ".", this);
-        }
-
-        private void Update()
-        {
-            
-            //un peu éclaté je verrais si je fais plus op mais là pour le moment j'ai la flemme
-            List<StatModifier> modifiersToRemove = new List<StatModifier>();
-            foreach (var modifier in _modifiers)
-            {
-                if (!modifier.UpdateDuration())
-                {
-                    modifiersToRemove.Add(modifier);
-                }
-            }
-            
-            foreach (var modifier in modifiersToRemove)
-            {
-                _modifiers.Remove(modifier);
             }
         }
     }

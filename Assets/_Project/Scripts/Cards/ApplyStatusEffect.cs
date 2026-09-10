@@ -2,14 +2,21 @@ using UnityEngine;
 
 namespace Game
 {
-    [CreateAssetMenu(fileName = "ApllyStatusEffect", menuName = "Scriptable Objects/CardEffect/ApllyStatusEffect")]
-
+    [CreateAssetMenu(fileName = "ApplyStatusEffect", menuName = "Scriptable Objects/CardEffect/ApplyStatusEffect")]
     public class ApplyStatusEffect : CardEffect
     {
+        [Header("Statut")]
         [SerializeField] private StatusType _status;
-        public override void Apply(Actor target)
+
+        protected override void ApplyTo(Actor target, Actor collector)
         {
-            target.StatusController.Apply(_status, _duration);   
+            if (target.StatusController == null)
+            {
+                Debug.LogWarning("[ApplyStatusEffect] " + target.name + " n'a pas de StatusEffectController.", target);
+                return;
+            }
+
+            target.StatusController.Apply(_status, _duration);
         }
     }
 }
