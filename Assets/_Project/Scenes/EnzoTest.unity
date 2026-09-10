@@ -289,7 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc39634fbb8dde42a85ffac9ca3abca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.DisplayBorne
-  compteurBorne: {fileID: 366267510}
+  _slider: {fileID: 366267510}
+  _smoothing: 8
 --- !u!1 &471694176
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,6 +528,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 51963f1d3f1c0534ea6a57a4d8df75ae, type: 2}
   - {fileID: 11400000, guid: b4e4a4fc4f630df46ae883cb422b8c9f, type: 2}
   _cardPrefab: {fileID: 998838688307921736, guid: 3a0104e22936e7b4081e162a95045ac3, type: 3}
+  _borneDefinitions:
+  - {fileID: 11400000, guid: 59215b541fd710643b6a5122d08c6ec7, type: 2}
+  - {fileID: 11400000, guid: 5b923b6a97fccc443879b5310b3f7525, type: 2}
+  - {fileID: 11400000, guid: c016b1a564ca9184eb2a4a6da2203caf, type: 2}
+  _bornePrefab: {fileID: -8837880457605985271, guid: bd297acec268dfb47a0c844ca717e34d, type: 3}
 --- !u!1 &721090291
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.89433956, g: 0.04556062, b: 0.04556062, a: 1}
+  m_Color: {r: 0.85611856, g: 0.99371064, b: 0.8343419, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1426,7 +1432,6 @@ MonoBehaviour:
   _onMatchEnded:
     m_PersistentCalls:
       m_Calls: []
-  _verboseLogs: 1
   _countdownText: {fileID: 879737167}
 --- !u!61 &1437663157
 BoxCollider2D:

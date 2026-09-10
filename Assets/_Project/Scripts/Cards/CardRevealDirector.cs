@@ -73,6 +73,29 @@ namespace Game
             reveal.OnComplete(() => Distribute(card, effect, collector, targets));
         }
 
+        public void PlaySelf(Sprite back, Sprite front, EffectPolarity polarity,
+            Actor collector, Vector3 origin)
+        {
+            if (_cardVisualPrefab == null)
+            {
+                Debug.LogError("[CardReveal] Aucun prefab de CardVisual assigne.", this);
+                return;
+            }
+
+            if (collector == null) return;
+
+            CardVisual card = Instantiate(_cardVisualPrefab, origin, Quaternion.identity);
+            card.SetSprite(back);
+
+            Sequence reveal = card.PlayReveal(collector, front, polarity);
+
+            reveal.OnComplete(() =>
+            {
+                card.PlayHold();
+                if (_holdDuration > 0f) card.Dismiss(_holdDuration);
+            });
+        }
+
         private static bool Contains(IReadOnlyList<Actor> list, Actor actor)
         {
             for (int i = 0; i < list.Count; i++)

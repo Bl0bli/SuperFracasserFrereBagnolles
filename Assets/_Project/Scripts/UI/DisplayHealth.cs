@@ -1,32 +1,25 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game
 {
-    public class DisplayHealth : MonoBehaviour
+    public class DisplayHealth : SliderDisplay
     {
-        private Health health;
-        public Slider healthSlider;
+        private Health _health;
 
-        void Update()
+        protected override bool TryGetValues(out float current, out float max)
         {
-            if (health == null)
+            if (_health == null) _health = GetComponentInParent<Health>();
+
+            if (_health == null)
             {
-                health = GetComponentInParent<Health>();
-                if (health == null) return;
-            }
-            
-            if (!Mathf.Approximately(healthSlider.maxValue, health.Max))
-            {
-                healthSlider.maxValue = health.Max;
+                current = 0f;
+                max = 1f;
+                return false;
             }
 
-            healthSlider.value = health.getCurrentHealth();
-        }
-
-        public void UpdateSlider(float value) //mettre la valeur temps réel des vies dans le slider
-        {
-            healthSlider.value = value;
+            current = _health.getCurrentHealth();
+            max = Mathf.Max(1f, _health.Max);
+            return true;
         }
     }
 }

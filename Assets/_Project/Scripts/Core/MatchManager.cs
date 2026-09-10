@@ -25,7 +25,8 @@ namespace Game
         private Actor _cthulhu;
         private MatchState _state = MatchState.Warmup;
         private float _remainingTime;
-        private int _bornes;
+        private int _entityBornes;
+        private int _carBornes;
         private int _lastTickedSecond = -1;
 
         #region Events
@@ -33,7 +34,7 @@ namespace Game
         public event Action OnMatchStarted;
         public event Action<float> OnTimerTick;
         public event Action<Actor> OnActorDied;
-        public event Action<int> OnBornesChanged;
+        public event Action<FactionType, int> OnBornesChanged;
         public event Action<FactionType> OnMatchEnded;
         public event Action<int> OnCountdownTick;
         public event Action<MatchState> OnStateChanged;
@@ -46,7 +47,9 @@ namespace Game
         public Actor Cthulhu => _cthulhu;
         public MatchState State => _state;
         public float RemainingTime => _remainingTime;
-        public int Bornes => _bornes;
+        public int EntityBornes => _entityBornes;
+        public int CarBornes => _carBornes;
+        public int BorneObjective => BorneGoal;
         public bool CanStart => _state == MatchState.Warmup && _players.Count >= MinPlayers;
         
         public MatchSettings Settings => _settings;
@@ -134,12 +137,19 @@ namespace Game
             StartCoroutine(StartSequence());
         }
 
-        public void AddBornes(int amount) //si on veut faire le systeme de borne pour le mechant
+        public void AddBornes(int amount)
+        {
+            AddBornes(FactionType.Cthulhu, amount);
+        }
+
+        public void AddBornes(FactionType faction, int amount)
         {
             if (_state != MatchState.Playing || amount <= 0) return;
 
-            _bornes += amount;
-            OnBornesChanged?.Invoke(_bornes);
+            if (faction == FactionType.Cthulhu) _entityBornes += amount;
+            else _carBornes += amount;
+
+            OnBornesChanged?.Invoke(faction, faction == FactionType.Cthulhu ? _entityBornes : _carBornes);
 
             EvaluateVictory();
         }
@@ -172,18 +182,23 @@ namespace Game
 
             for (int i = CountdownSeconds; i > 0; i--)
             {
-                _countdownText.text = i.ToString();
+                if (_countdownText != null)
+                {
+                    _countdownText.gameObject.SetActive(true);
+                    _countdownText.text = i.ToString();
+                }
                 OnCountdownTick?.Invoke(i);
                 yield return new WaitForSeconds(1f);
             }
             OnCountdownTick?.Invoke(0);
             _remainingTime = MatchDuration;
             _lastTickedSecond = -1;
-            _bornes = 0;
+            _entityBornes = 0;
+            _carBornes = 0;
             SetState(MatchState.Playing);
             OnMatchStarted?.Invoke();
             _onMatchStarted?.Invoke();
-            _countdownText.gameObject.SetActive(false);
+            if (_countdownText != null) _countdownText.gameObject.SetActive(false);
         }
 
         private void HandleActorDied(Actor actor)
@@ -216,15 +231,42 @@ namespace Game
                 EndMatch(FactionType.Cthulhu, "toutes les voitures sont eliminees");
                 return;
             }
-            if (BorneGoal > 0 && _bornes >= BorneGoal)
+            if (BorneGoal > 0 && _carBornes >= BorneGoal)
             {
-                EndMatch(FactionType.Cthulhu, "les " + BorneGoal + " bornes sont atteintes");
+                EndMatch(FactionType.Car, "les voitures atteignent " + BorneGoal + " bornes");
+                return;
+            }
+            if (BorneGoal > 0 && _entityBornes >= BorneGoal)
+            {
+                EndMatch(FactionType.Cthulhu, "l'entite atteint " + BorneGoal + " bornes");
                 return;
             }
             if (_remainingTime <= 0f)
             {
-                EndMatch(FactionType.Cthulhu, "le chrono est ecoule");
+                DecideOnBornes();
             }
+        }
+
+        private void DecideOnBornes()
+        {
+            if (_carBornes > _entityBornes)
+            {
+                EndMatch(FactionType.Car, "chrono ecoule, les voitures menent " +
+                                          _carBornes + " a " + _entityBornes);
+                return;
+            }
+
+            if (_entityBornes > _carBornes)
+            {
+                EndMatch(FactionType.Cthulhu, "chrono ecoule, l'entite mene " +
+                                              _entityBornes + " a " + _carBornes);
+                return;
+            }
+
+            bool entityWins = _settings == null || _settings.EntityWinsTies;
+
+            EndMatch(entityWins ? FactionType.Cthulhu : FactionType.Car,
+                "chrono ecoule, egalite a " + _carBornes + " bornes");
         }
 
         private void EndMatch(FactionType winner, string reason)
@@ -262,9 +304,9 @@ namespace Game
             return _remainingTime;
         }
 
-        public int getBornes() //retourne le nombre de bornes pour DisplayBorne
+        public int getBornes() //compteur de l'entite, conserve pour compatibilite
         {
-            return _bornes;
+            return _entityBornes;
         }
         
     }
