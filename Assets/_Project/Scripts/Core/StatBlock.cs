@@ -88,12 +88,34 @@ namespace Game
 
         public void AddModifier(StatModifier modifier)
         {
-            //TODO implementer (couche cartes, jour 3)
+            _modifiers.Add(modifier);
         }
 
         public void RemoveModifier(StatModifier modifier)
         {
-            //TODO implementer (couche cartes, jour 3)
+            if(_modifiers.Contains(modifier))
+                _modifiers.Remove(modifier);
+            else
+                Debug.LogWarning("[StatBlock] RemoveModifier appele avec un modifier non present sur " + name + ".", this);
+        }
+
+        private void Update()
+        {
+            
+            //un peu éclaté je verrais si je fais plus op mais là pour le moment j'ai la flemme
+            List<StatModifier> modifiersToRemove = new List<StatModifier>();
+            foreach (var modifier in _modifiers)
+            {
+                if (!modifier.UpdateDuration())
+                {
+                    modifiersToRemove.Add(modifier);
+                }
+            }
+            
+            foreach (var modifier in modifiersToRemove)
+            {
+                _modifiers.Remove(modifier);
+            }
         }
     }
 }
