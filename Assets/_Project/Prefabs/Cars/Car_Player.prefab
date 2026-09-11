@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.98, y: 2.98, z: 2.98}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3501107761712394962}
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.216981, g: 0.59279203, b: 1, a: 0.14901961}
+  m_Sprite: {fileID: 2389193319765324094, guid: 4a8c21acdc755d24794f17399053b5ed, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1111,8 +1111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.ShieldVisual
   _shield: {fileID: 9113923994999369825}
+  _actor: {fileID: 0}
   _bubble: {fileID: 5247509990423510906}
   _renderer: {fileID: 3056390246680564872}
+  _shieldCar: {fileID: 2389193319765324094, guid: 4a8c21acdc755d24794f17399053b5ed, type: 3}
+  _shieldMonster: {fileID: 3179603132100020758, guid: d3b0969e21ee2f84eaadc5005708221b, type: 3}
   _breakFx: {fileID: 3501107761712394988}
   _keepUpright: 1
   _appearDuration: 0.3
