@@ -44,6 +44,8 @@ namespace Game
         
         public event Action OnLobbyReset;
 
+        public event Action<Actor> OnActorRegistered;
+
         #endregion
         
         #region Properties
@@ -116,6 +118,7 @@ namespace Game
 
             _players.Add(actor);
             if (!_spawned.Contains(actor)) _spawned.Add(actor);
+            OnActorRegistered?.Invoke(actor);
 
             if (actor.Health != null)
             {
