@@ -17,4 +17,4 @@ MonoBehaviour:
   _feedbackColor: {r: 0.05490196, g: 0.4392157, b: 0.22745098, a: 0.29803923}
   _target: 1
   _status: 1
-  _duration: 5
+  _duration: 8

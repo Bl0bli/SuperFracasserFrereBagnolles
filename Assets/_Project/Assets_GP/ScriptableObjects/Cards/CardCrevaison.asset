@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CardCrevaison
   m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
   ID: 
-  SpawnWeight: 1
+  SpawnWeight: 5
   _playerEffect: {fileID: 11400000, guid: 5be4216e78c857a49b9a3f9712174f5c, type: 2}
   _entityEffect: {fileID: 11400000, guid: fbb10ae4a09f858489aba6356595ddcd, type: 2}
