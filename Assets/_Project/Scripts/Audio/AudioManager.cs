@@ -13,6 +13,7 @@ namespace Game
         public AudioSource ThrowableSound;
         public AudioSource ShieldSound;
         public AudioSource EngineLoop;
+        public AudioSource ExplosionSound;
         void Awake()
         {
             if (Instance == null)
@@ -86,6 +87,11 @@ namespace Game
         public void PlayEngineLoop()
             {
                 EngineLoop.Play();
+            }
+
+        public void PlayExplosionSound()
+            {
+                ExplosionSound.Play();
             }
     }
 }
