@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 01277adbc536fcb489f76e889a24f0cd
+guid: 2980f335441895a42b02d8897c05bbf2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3048718562151143312
-    second: voiture_01_0
+      213: 7170741393629336905
+    second: Essence2_0
+  - first:
+      213: -7974139811883450554
+    second: Essence2_1
+  - first:
+      213: 628218637068786868
+    second: Essence2_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 260
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: voiture_01_0
+      name: Essence2_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 11
-        width: 337
-        height: 611
+        x: 12
+        y: 15
+        width: 399
+        height: 370
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 097982521693f4a20800000000000000
-      internalID: 3048718562151143312
+      spriteID: 94557772e47938360800000000000000
+      internalID: 7170741393629336905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Essence2_1
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 276
+        width: 117
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64ff263071a265190800000000000000
+      internalID: -7974139811883450554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Essence2_2
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 228
+        width: 44
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bcd3cf9581e7b800800000000000000
+      internalID: 628218637068786868
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      voiture_01_0: 3048718562151143312
+      Essence2_0: 7170741393629336905
+      Essence2_1: -7974139811883450554
+      Essence2_2: 628218637068786868
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

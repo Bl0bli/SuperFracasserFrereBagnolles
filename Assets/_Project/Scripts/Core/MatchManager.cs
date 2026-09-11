@@ -337,6 +337,7 @@ namespace Game
 
             OnMatchEnded?.Invoke(winner);
             _onMatchEnded?.Invoke();
+            Debug.Log("[MatchManager] " + reason);
         }
         
         private static void Freeze(Actor actor, float duration) //freeze un actor (ex pendant le decompte)

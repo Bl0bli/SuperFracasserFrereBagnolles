@@ -17,7 +17,7 @@ MonoBehaviour:
   MatchDuration: 180
   BorneGoal: 1000
   EntityWinsTies: 1
-  RandomBetweenValues: 0
+  RandomBetweenValues: 1
   PowerUpInterval: 10
-  PowerUpIntervalMin: 5
-  PowerUpIntervalMax: 15
+  PowerUpIntervalMin: 3
+  PowerUpIntervalMax: 10

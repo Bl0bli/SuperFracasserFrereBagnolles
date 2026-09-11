@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac2c1349c6dc4dc4d8f23d3a58af2654, type: 3}
   m_Name: SO_CthulhuStats
   m_EditorClassIdentifier: Game.Runtime::Game.CharacterStats
-  MoveSpeed: 5
-  Acceleration: 12
+  MoveSpeed: 10
+  Acceleration: 35
   Deceleration: 30
   Grip: 0.9
   TurnRate: 300
@@ -22,6 +22,6 @@ MonoBehaviour:
   RamSpeedThreshold: 0.4
   RamDamage: 30
   KnockbackForce: 18
-  MaxHealth: 200
-  Damage: 25
+  MaxHealth: 500
+  Damage: 5
   AttackCooldown: 1.5
