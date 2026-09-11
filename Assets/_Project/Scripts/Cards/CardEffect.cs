@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -6,39 +7,50 @@ namespace Game
 {
     public abstract class CardEffect : ScriptableObject
     {
+        [Header("Presentation")]
+        [Tooltip("Face visible de la carte une fois retournee.")]
+        [SerializeField] private Sprite _icon;
+
+        [Tooltip("Colore les particules sous la carte : lumineuses ou sombres.")]
+        [SerializeField] private EffectPolarity _polarity = EffectPolarity.Bonus;
+
+        [Tooltip("Couleur du flash joue sur la cible. Laissez l'alpha a 0 pour utiliser " +
+                 "la couleur par defaut de la polarite.")]
+        [SerializeField] private Color _feedbackColor = new Color(1f, 1f, 1f, 0f);
+
         [Header("Ciblage")]
         [Tooltip("Qui subit l'effet. Self = le ramasseur. Cars = les voitures. " +
                  "Cthulhu = l'entite. RandomCar = une voiture au hasard. Everyone = tout le monde.")]
         [SerializeField] protected EffectTarget _target = EffectTarget.Self;
 
-        [SerializeField] protected Sprite _cardSprite;
-
-        [Header("Debug")]
-        [Tooltip("Trace le ramasseur et la liste des cibles reellement touchees.")]
-        [SerializeField] private bool _verboseLogs = true;
-
         public EffectTarget Target => _target;
-        public Sprite CardSprite => _cardSprite;
+        public Sprite Icon => _icon;
+        public EffectPolarity Polarity => _polarity;
+        public Color FeedbackColor => _feedbackColor;
 
-        public void Apply(Actor collector)
+        public IReadOnlyList<Actor> Apply(Actor collector)
         {
             if (collector == null)
             {
                 Debug.LogError("[CardEffect] " + name + " applique sans ramasseur.", this);
-                return;
+                return Array.Empty<Actor>();
             }
 
             List<Actor> targets = ResolveTargets(collector);
 
             if (targets.Count == 0)
             {
-                return;
+                Debug.LogWarning("[CardEffect] " + name + " n'a touche personne : cible " + _target +
+                                 ", ramasseur " + Describe(collector) + ".", this);
+                return targets;
             }
 
             for (int i = 0; i < targets.Count; i++)
             {
                 if (targets[i] != null) ApplyTo(targets[i], collector);
             }
+
+            return targets;
         }
 
         protected abstract void ApplyTo(Actor target, Actor collector);
@@ -81,6 +93,12 @@ namespace Game
             return buffer;
         }
 
+        protected static string Describe(Actor actor)
+        {
+            if (actor == null) return "null";
+            return actor.name + " [" + actor.Faction + "]";
+        }
+
         private static void AddAlive(List<Actor> buffer, IReadOnlyList<Actor> source)
         {
             if (source == null) return;
@@ -107,7 +125,7 @@ namespace Game
             if (candidates.Count > 1) candidates.Remove(collector);
             if (candidates.Count == 0) return;
 
-            buffer.Add(candidates[Random.Range(0, candidates.Count)]);
+            buffer.Add(candidates[UnityEngine.Random.Range(0, candidates.Count)]);
         }
     }
 }

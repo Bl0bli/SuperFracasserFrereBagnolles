@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfabd426ab38d64dbbefd040bd2f04f, type: 3}
   m_Name: Mechant_FeuVert
   m_EditorClassIdentifier: Game.Runtime::Game.ApplyStatusEffect
+  _icon: {fileID: 7359317260282175854, guid: ba4b015b730a2ef44928af7244d2d31a, type: 3}
+  _polarity: 1
+  _feedbackColor: {r: 0.05490196, g: 0.4392157, b: 0.22745098, a: 0.29803923}
   _target: 1
-  _cardSprite: {fileID: 7359317260282175854, guid: ba4b015b730a2ef44928af7244d2d31a, type: 3}
-  _verboseLogs: 1
   _status: 5
-  _duration: 8
+  _duration: 5

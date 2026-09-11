@@ -7,17 +7,16 @@ namespace Game
     public class StatBlock : MonoBehaviour
     {
         [SerializeField] private CharacterStats _baseStats;
-        [SerializeField] private Actor _actor;
 
         private readonly List<StatModifier> _modifiers = new List<StatModifier>();
 
         public IReadOnlyList<StatModifier> Modifiers => _modifiers;
 
-        public string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
+        public event Action<StatModifier> OnModifierAdded;
+        public event Action<StatModifier> OnModifierRemoved;
 
         private void Awake()
         {
-            if (_actor == null) _actor = GetComponent<Actor>();
         }
 
         public void SetBaseStats(CharacterStats stats)
@@ -56,6 +55,8 @@ namespace Game
 
         public void AddModifier(StatModifier modifier)
         {
+            OnModifierAdded?.Invoke(modifier);
+
             _modifiers.Add(modifier);
         }
 
@@ -67,9 +68,9 @@ namespace Game
             {
                 if (!ReferenceEquals(_modifiers[i].Source, source)) continue;
 
-                StatType stat = _modifiers[i].Stats;
-
+                StatModifier removed = _modifiers[i];
                 _modifiers.RemoveAt(i);
+                OnModifierRemoved?.Invoke(removed);
             }
         }
 
@@ -96,6 +97,7 @@ namespace Game
                 if (m.Duration <= 0f)
                 {
                     _modifiers.RemoveAt(i);
+                    OnModifierRemoved?.Invoke(m);
                 }
                 else
                 {

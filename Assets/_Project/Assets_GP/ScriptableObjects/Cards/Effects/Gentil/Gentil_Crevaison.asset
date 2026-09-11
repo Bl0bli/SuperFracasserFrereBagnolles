@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce447c56d302ea240b4bff44d3e06c8d, type: 3}
   m_Name: Gentil_Crevaison
   m_EditorClassIdentifier: Game.Runtime::Game.StatModifierEffect
+  _icon: {fileID: 708543081235494847, guid: 7c9dd00950254ad488dfd9ddb5cc7a8c, type: 3}
+  _polarity: 1
+  _feedbackColor: {r: 0.05399305, g: 0.44025147, b: 0.22848006, a: 0.29803923}
   _target: 0
-  _cardSprite: {fileID: 708543081235494847, guid: 7c9dd00950254ad488dfd9ddb5cc7a8c, type: 3}
-  _verboseLogs: 1
   _stat: 1
   _mode: 1
   _value: 0.2

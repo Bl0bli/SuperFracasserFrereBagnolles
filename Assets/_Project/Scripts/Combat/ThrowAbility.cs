@@ -17,8 +17,6 @@ namespace Game
         [Tooltip("Distance devant le vehicule quand aucun muzzle n'est assigne.")]
         [SerializeField, Min(0f)] private float _muzzleOffset = 0.9f;
 
-        [SerializeField] private bool _verboseLogs = true;
-
         private Projectile _activeProjectile;
         private float _activeUntil;
         private float _nextThrowTime;
@@ -35,7 +33,6 @@ namespace Game
         public Projectile CurrentProjectile => _activeProjectile != null ? _activeProjectile : _defaultProjectile;
 
         private bool IsSilenced => _statusController != null && _statusController.Has(StatusType.Silenced);
-        private string Label => _actor != null ? name + " [" + _actor.Faction + "]" : name;
 
         private void Awake()
         {
@@ -58,12 +55,6 @@ namespace Game
 
             OnGranted?.Invoke(duration);
 
-            if (_verboseLogs)
-            {
-                string ammo = _activeProjectile != null ? _activeProjectile.name : "AUCUN PROJECTILE";
-                Debug.Log("[Throw] " + Label + " : " + ammo + " pour " + duration.ToString("F1") +
-                          "s, cooldown " + _cooldown.ToString("F2") + "s.", this);
-            }
         }
 
         public bool TryThrow()
@@ -88,8 +79,6 @@ namespace Game
 
             OnThrown?.Invoke();
 
-            if (_verboseLogs) Debug.Log("[Throw] " + Label + " lance " + prefab.name + ".", this);
-
             return true;
         }
 
@@ -101,7 +90,6 @@ namespace Game
             _activeProjectile = null;
             OnExpired?.Invoke();
 
-            if (_verboseLogs) Debug.Log("[Throw] " + Label + " : lancer termine.", this);
         }
     }
 }

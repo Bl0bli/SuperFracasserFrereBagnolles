@@ -20,17 +20,16 @@ namespace Game
         [SerializeField] private UnityEvent _onMatchStarted;
         [SerializeField] private UnityEvent _onMatchEnded;
 
-        [Header("Debug")]
-        [Tooltip("Trace dans la console chaque changement d'etat et chaque evenement du lobby. " +
-                 "A decocher avant le build.")]
-        [SerializeField] private bool _verboseLogs = true;
-
         private readonly List<Actor> _players = new List<Actor>();
+
+        // Tous les acteurs instancies, morts compris : sert au nettoyage entre deux parties.
+        private readonly List<Actor> _spawned = new List<Actor>();
         private readonly List<Actor> _cars = new List<Actor>();
         private Actor _cthulhu;
         private MatchState _state = MatchState.Warmup;
         private float _remainingTime;
-        private int _bornes;
+        private int _entityBornes;
+        private int _carBornes;
         private int _lastTickedSecond = -1;
 
         #region Events
@@ -38,10 +37,12 @@ namespace Game
         public event Action OnMatchStarted;
         public event Action<float> OnTimerTick;
         public event Action<Actor> OnActorDied;
-        public event Action<int> OnBornesChanged;
+        public event Action<FactionType, int> OnBornesChanged;
         public event Action<FactionType> OnMatchEnded;
         public event Action<int> OnCountdownTick;
         public event Action<MatchState> OnStateChanged;
+        
+        public event Action OnLobbyReset;
 
         #endregion
         
@@ -51,7 +52,9 @@ namespace Game
         public Actor Cthulhu => _cthulhu;
         public MatchState State => _state;
         public float RemainingTime => _remainingTime;
-        public int Bornes => _bornes;
+        public int EntityBornes => _entityBornes;
+        public int CarBornes => _carBornes;
+        public int BorneObjective => BorneGoal;
         public bool CanStart => _state == MatchState.Warmup && _players.Count >= MinPlayers;
         
         public MatchSettings Settings => _settings;
@@ -79,7 +82,6 @@ namespace Game
             {
                 Debug.LogError("[MatchManager] Aucun MatchSettings assigne : valeurs par defaut utilisees.", this);
             }
-            Log("Etat initial : " + _state + ". En attente de joueurs (minimum " + MinPlayers + ").");
         }
 
         private void OnDestroy()
@@ -104,7 +106,6 @@ namespace Game
             if (_remainingTime <= 0f)
             {
                 _remainingTime = 0f;
-                Log("Chrono ecoule.");
                 EvaluateVictory();
             }
         }
@@ -114,6 +115,7 @@ namespace Game
             if (actor == null || _players.Contains(actor)) return;
 
             _players.Add(actor);
+            if (!_spawned.Contains(actor)) _spawned.Add(actor);
 
             if (actor.Health != null)
             {
@@ -124,36 +126,86 @@ namespace Game
                 Debug.LogWarning("[MatchManager] " + actor.name + " n'a pas de Health : mort non suivie.", actor);
             }
 
-            Log("Joueur enregistre : " + actor.name + " (" + _players.Count + "/" + MinPlayers +
-                (CanStart ? ") - Start disponible." : ") - il en manque."));
         }
 
         public void RequestStart()
         {
             if (_state != MatchState.Warmup)
             {
-                Log("Start ignore : la partie est deja en etat " + _state + ".");
                 return;
             }
 
             if (_players.Count < MinPlayers)
             {
-                Log("Start refuse : " + _players.Count + " joueur(s), il en faut " + MinPlayers + ".");
                 return;
             }
 
             StartCoroutine(StartSequence());
         }
 
-        public void AddBornes(int amount) //si on veut faire le systeme de borne pour le mechant
+        public void AddBornes(int amount)
+        {
+            AddBornes(FactionType.Cthulhu, amount);
+        }
+
+        public void AddBornes(FactionType faction, int amount)
         {
             if (_state != MatchState.Playing || amount <= 0) return;
 
-            _bornes += amount;
-            OnBornesChanged?.Invoke(_bornes);
-            Log("Bornes : " + _bornes + (BorneGoal > 0 ? " / " + BorneGoal : " (objectif desactive)"));
+            if (faction == FactionType.Cthulhu) _entityBornes += amount;
+            else _carBornes += amount;
+
+            OnBornesChanged?.Invoke(faction, faction == FactionType.Cthulhu ? _entityBornes : _carBornes);
 
             EvaluateVictory();
+        }
+        public void ResetToLobby()
+        {
+            StopAllCoroutines();
+
+            ClearArena();
+            ClearPlayers();
+
+            _entityBornes = 0;
+            _carBornes = 0;
+            _remainingTime = 0f;
+            _lastTickedSecond = -1;
+
+            SetState(MatchState.Warmup);
+            OnLobbyReset?.Invoke();
+        }
+
+        private void ClearPlayers()
+        {
+            foreach (Actor actor in _spawned)
+            {
+                if (actor == null) continue;
+
+                if (actor.Health != null) actor.Health.OnDied -= HandleActorDied;
+                Destroy(actor.gameObject);
+            }
+
+            _spawned.Clear();
+            _players.Clear();
+            _cars.Clear();
+            _cthulhu = null;
+        }
+
+        private static void ClearArena()
+        {
+            DestroyAll(FindObjectsByType<CardPickup>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<BornePickUp>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<Projectile>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<OilPuddle>(FindObjectsSortMode.None));
+            DestroyAll(FindObjectsByType<CardVisual>(FindObjectsSortMode.None));
+        }
+
+        private static void DestroyAll<T>(T[] items) where T : Component
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null) Destroy(items[i].gameObject);
+            }
         }
 
         private IEnumerator StartSequence()
@@ -161,7 +213,6 @@ namespace Game
             SetState(MatchState.Starting);
 
             Actor chosen = _players[UnityEngine.Random.Range(0, _players.Count)];
-            Log("Entite tiree au sort : " + chosen.name + " parmi " + _players.Count + " joueurs.");
             _cars.Clear();
             _cthulhu = null;
 
@@ -183,23 +234,25 @@ namespace Game
                 Freeze(actor, CountdownSeconds + 0.1f);
             }
 
-            Log("Roles distribues : " + _cars.Count + " voiture(s) contre 1 entite. Decompte...");
             for (int i = CountdownSeconds; i > 0; i--)
             {
-                _countdownText.text = i.ToString();
-                Log("Decompte : " + i);
+                if (_countdownText != null)
+                {
+                    _countdownText.gameObject.SetActive(true);
+                    _countdownText.text = i.ToString();
+                }
                 OnCountdownTick?.Invoke(i);
                 yield return new WaitForSeconds(1f);
             }
-            Log("GO");
             OnCountdownTick?.Invoke(0);
             _remainingTime = MatchDuration;
             _lastTickedSecond = -1;
-            _bornes = 0;
+            _entityBornes = 0;
+            _carBornes = 0;
             SetState(MatchState.Playing);
             OnMatchStarted?.Invoke();
             _onMatchStarted?.Invoke();
-            _countdownText.gameObject.SetActive(false);
+            if (_countdownText != null) _countdownText.gameObject.SetActive(false);
         }
 
         private void HandleActorDied(Actor actor)
@@ -213,13 +266,9 @@ namespace Game
             if (actor.Faction == FactionType.Cthulhu) _cthulhu = null;
             else _cars.Remove(actor);
 
-            Log("Mort de " + actor.name + " (" + actor.Faction + "). Restant : " +
-                _cars.Count + " voiture(s), entite " + (_cthulhu == null ? "eliminee" : "vivante") + ".");
-
             OnActorDied?.Invoke(actor);
             EvaluateVictory();
         }
-
 
         private void EvaluateVictory()
         {
@@ -236,21 +285,47 @@ namespace Game
                 EndMatch(FactionType.Cthulhu, "toutes les voitures sont eliminees");
                 return;
             }
-            if (BorneGoal > 0 && _bornes >= BorneGoal)
+            if (BorneGoal > 0 && _carBornes >= BorneGoal)
             {
-                EndMatch(FactionType.Cthulhu, "les " + BorneGoal + " bornes sont atteintes");
+                EndMatch(FactionType.Car, "les voitures atteignent " + BorneGoal + " bornes");
+                return;
+            }
+            if (BorneGoal > 0 && _entityBornes >= BorneGoal)
+            {
+                EndMatch(FactionType.Cthulhu, "l'entite atteint " + BorneGoal + " bornes");
                 return;
             }
             if (_remainingTime <= 0f)
             {
-                EndMatch(FactionType.Cthulhu, "le chrono est ecoule");
+                DecideOnBornes();
             }
+        }
+
+        private void DecideOnBornes()
+        {
+            if (_carBornes > _entityBornes)
+            {
+                EndMatch(FactionType.Car, "chrono ecoule, les voitures menent " +
+                                          _carBornes + " a " + _entityBornes);
+                return;
+            }
+
+            if (_entityBornes > _carBornes)
+            {
+                EndMatch(FactionType.Cthulhu, "chrono ecoule, l'entite mene " +
+                                              _entityBornes + " a " + _carBornes);
+                return;
+            }
+
+            bool entityWins = _settings == null || _settings.EntityWinsTies;
+
+            EndMatch(entityWins ? FactionType.Cthulhu : FactionType.Car,
+                "chrono ecoule, egalite a " + _carBornes + " bornes");
         }
 
         private void EndMatch(FactionType winner, string reason)
         {
             SetState(MatchState.Ended);
-            Log("Victoire " + (winner == FactionType.Car ? "des voitures" : "de l'entite") + " : " + reason + ".");
 
             foreach (Actor actor in _players)
             {
@@ -260,7 +335,6 @@ namespace Game
             OnMatchEnded?.Invoke(winner);
             _onMatchEnded?.Invoke();
         }
-        
         
         private static void Freeze(Actor actor, float duration) //freeze un actor (ex pendant le decompte)
         {
@@ -277,22 +351,16 @@ namespace Game
             MatchState previous = _state;
             _state = next;
 
-            Log("Etat : " + previous + " -> " + next);
             OnStateChanged?.Invoke(next);
-        }
-
-        private void Log(string message)
-        {
-            if (_verboseLogs) Debug.Log("[MatchManager] " + message, this);
         }
         public float getCurrentTime() //retourne le temps restant du match pour DisplayTimer
         {
             return _remainingTime;
         }
 
-        public int getBornes() //retourne le nombre de bornes pour DisplayBorne
+        public int getBornes() //compteur de l'entite, conserve pour compatibilite
         {
-            return _bornes;
+            return _entityBornes;
         }
         
     }

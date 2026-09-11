@@ -4,18 +4,46 @@ namespace Game
 {
     public class BornePickUp : MonoBehaviour, IPickup
     {
-        [SerializeField, Min(1)] private int _borneValue = 25;
+        [SerializeField] private BorneCardDefinition _definition;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         private bool _consummed;
+
+        public BorneCardDefinition Definition => _definition;
+
+        private void Awake()
+        {
+            if (_spriteRenderer == null) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        public void SetDefinition(BorneCardDefinition definition)
+        {
+            _definition = definition;
+        }
 
         public void OnPickedUp(Actor collector)
         {
             if (_consummed) return;
+
+            if (_definition == null)
+            {
+                Debug.LogError("[BornePickUp] " + name + " n'a pas de BorneCardDefinition.", this);
+                return;
+            }
+
             _consummed = true;
 
-            if (collector.Faction == FactionType.Cthulhu)
+            if (MatchManager.Instance != null)
             {
-                if (MatchManager.Instance != null) MatchManager.Instance.AddBornes(_borneValue);
+                MatchManager.Instance.AddBornes(collector.Faction, _definition.BorneValue);
+            }
+
+            if (CardRevealDirector.Instance != null)
+            {
+                Sprite back = _spriteRenderer != null ? _spriteRenderer.sprite : null;
+
+                CardRevealDirector.Instance.PlaySelf(back, _definition.Icon, EffectPolarity.Bonus,
+                    collector, transform.position);
             }
 
             Destroy(gameObject);

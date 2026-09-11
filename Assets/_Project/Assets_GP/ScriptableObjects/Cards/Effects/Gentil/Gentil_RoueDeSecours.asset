@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39244093ffe5f7841b9864f7cae6a0be, type: 3}
   m_Name: Gentil_RoueDeSecours
   m_EditorClassIdentifier: Game.Runtime::Game.GrantThrowEffect
+  _icon: {fileID: 822378364912159227, guid: 48f241b33e32ba64391c47a4c38e5969, type: 3}
+  _polarity: 0
+  _feedbackColor: {r: 1, g: 0.83137256, b: 0.30588236, a: 0.29803923}
   _target: 1
-  _cardSprite: {fileID: 822378364912159227, guid: 48f241b33e32ba64391c47a4c38e5969, type: 3}
-  _verboseLogs: 1
   _projectile: {fileID: 1657229896398572948, guid: 3b37805201fc5f945ae68d0210b6a5a5, type: 3}
   _duration: 8
   _cooldown: 0.5

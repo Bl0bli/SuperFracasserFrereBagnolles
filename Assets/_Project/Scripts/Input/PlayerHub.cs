@@ -28,6 +28,8 @@ namespace Game
 
             _playerInputManager.playerPrefab = _playerPrefab;
             _playerInputManager.onPlayerJoined += OnPlayerJoined;
+
+            if (MatchManager.Instance != null) MatchManager.Instance.OnLobbyReset += HandleLobbyReset;
         }
 
         private void OnDestroy()
@@ -36,6 +38,13 @@ namespace Game
             {
                 _playerInputManager.onPlayerJoined -= OnPlayerJoined;
             }
+
+            if (MatchManager.Instance != null) MatchManager.Instance.OnLobbyReset -= HandleLobbyReset;
+        }
+
+        private void HandleLobbyReset()
+        {
+            _joinCount = 0;
         }
 
         private void OnPlayerJoined(PlayerInput player)

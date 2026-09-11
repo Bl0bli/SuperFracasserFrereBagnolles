@@ -20,7 +20,11 @@ namespace Game
         [Header("Bornes")]
         [Tooltip("Total de bornes que l'entite doit atteindre pour gagner. " +
                  "0 desactive cette condition de victoire (phase cartes non implementee).")]
-        [Range(0, 1000)] public int BorneGoal = 0;
+        [Range(0, 1000)] public int BorneGoal = 1000;
+
+        [Tooltip("En cas d'egalite de bornes a la fin du chrono, l'entite l'emporte. " +
+                 "Decocher pour donner l'avantage aux voitures.")]
+        public bool EntityWinsTies = true;
 
         [Header("Power Ups")] 
         public bool RandomBetweenValues = false;

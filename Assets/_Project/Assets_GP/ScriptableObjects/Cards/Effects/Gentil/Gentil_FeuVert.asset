@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce447c56d302ea240b4bff44d3e06c8d, type: 3}
   m_Name: Gentil_FeuVert
   m_EditorClassIdentifier: Game.Runtime::Game.StatModifierEffect
+  _icon: {fileID: 2908690260502215571, guid: 744dff5f7907b9f42b220f57d4ec1f20, type: 3}
+  _polarity: 0
+  _feedbackColor: {r: 1, g: 0.83137256, b: 0.30588236, a: 0.29803923}
   _target: 0
-  _cardSprite: {fileID: 2908690260502215571, guid: 744dff5f7907b9f42b220f57d4ec1f20, type: 3}
-  _verboseLogs: 1
   _stat: 7
   _mode: 0
   _value: 1
