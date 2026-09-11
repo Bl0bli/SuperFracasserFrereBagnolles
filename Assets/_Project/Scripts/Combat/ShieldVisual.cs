@@ -6,11 +6,13 @@ namespace Game
     public class ShieldVisual : MonoBehaviour
     {
         [SerializeField] private ShieldController _shield;
+        [SerializeField] private Actor _actor;
 
         [Tooltip("Bulle affichee autour du vehicule. Laissez-la desactivee dans le prefab.")]
         [SerializeField] private Transform _bubble;
 
         [SerializeField] private SpriteRenderer _renderer;
+        [SerializeField] private Sprite _shieldCar, _shieldMonster;
 
         [Tooltip("Particules jouees a la casse du bouclier.")]
         [SerializeField] private ParticleSystem _breakFx;
@@ -75,7 +77,14 @@ namespace Game
             _bubble.gameObject.SetActive(true);
             _bubble.localScale = Vector3.zero;
 
-            if (_renderer != null) _renderer.color = _baseColor;
+            if (_actor.Faction == FactionType.Car)
+            {
+                _renderer.sprite = _shieldCar;
+            }
+            else
+            {
+                _renderer.sprite = _shieldMonster;
+            }
 
             Sequence sequence = DOTween.Sequence().SetTarget(_bubble);
             sequence.Append(_bubble.DOScale(_baseScale, _appearDuration).SetEase(Ease.OutBack));
