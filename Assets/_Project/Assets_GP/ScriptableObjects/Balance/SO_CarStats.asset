@@ -19,9 +19,9 @@ MonoBehaviour:
   TurnRate: 720
   Mass: 1
   LinearDamping: 0.5
-  RamSpeedThreshold: 0.5
+  RamSpeedThreshold: 0.25
   RamDamage: 10
   KnockbackForce: 6
-  MaxHealth: 350
-  Damage: 1
+  MaxHealth: 500
+  Damage: 3
   AttackCooldown: 1
