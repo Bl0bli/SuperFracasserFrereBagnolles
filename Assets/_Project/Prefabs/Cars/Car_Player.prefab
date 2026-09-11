@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.ShieldVisual
   _shield: {fileID: 9113923994999369825}
-  _actor: {fileID: 0}
+  _actor: {fileID: 1492530235643644095}
   _bubble: {fileID: 5247509990423510906}
   _renderer: {fileID: 3056390246680564872}
   _shieldCar: {fileID: 2389193319765324094, guid: 4a8c21acdc755d24794f17399053b5ed, type: 3}

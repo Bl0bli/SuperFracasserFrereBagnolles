@@ -18,4 +18,4 @@ MonoBehaviour:
   _target: 4
   _hazardPrefab: {fileID: 1904695207601658941, guid: 10bf6cd1a683be9489c650b29fed9076, type: 3}
   _count: 5
-  _fallbackRadius: 10
+  _fallbackRadius: 20
