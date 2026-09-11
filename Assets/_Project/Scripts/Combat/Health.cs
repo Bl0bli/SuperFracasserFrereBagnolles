@@ -13,6 +13,7 @@ namespace Game
         [SerializeField] private Actor _actor;
         [SerializeField] private Knockback _knockback;
         [SerializeField] private ShieldController _shield;
+        [SerializeField] private GameObject _fxDeath;
 
         [Tooltip("Duree pendant laquelle l'acteur ne peut plus etre touche apres un coup.")]
         [SerializeField] private float _invulnDuration = 0.35f;
@@ -80,6 +81,8 @@ namespace Game
             {
                 _current = 0f;
                 OnDied?.Invoke(_actor);
+                Instantiate(_fxDeath, transform.position, Quaternion.identity);
+                gameObject.SetActive(false);
             }
         }
 

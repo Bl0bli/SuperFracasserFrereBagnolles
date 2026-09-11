@@ -742,12 +742,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850779b32cfae0244b01c5cd3299c683, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.Health
+  _offset: -2
   _slider: {fileID: 8952246413205623544}
   _lifebar: {fileID: 3234000731071627695}
   _stats: {fileID: 7828211015690683341}
   _actor: {fileID: 1492530235643644095}
   _knockback: {fileID: -832589007305970928}
   _shield: {fileID: 9113923994999369825}
+  _fxDeath: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
   _invulnDuration: 0.35
 --- !u!114 &4169417015985768455
 MonoBehaviour:
