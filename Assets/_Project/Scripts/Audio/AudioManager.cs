@@ -9,6 +9,10 @@ namespace Game
         public AudioSource AmbientSound;
         public AudioSource BumpingSound;
         public AudioSource PowerPickupSound;
+        public AudioSource BornePickupSound;
+        public AudioSource ThrowableSound;
+        public AudioSource ShieldSound;
+        public AudioSource EngineLoop;
         void Awake()
         {
             if (Instance == null)
@@ -62,6 +66,26 @@ namespace Game
         public void PlayPowerPickupSound()
             {
                 PowerPickupSound.Play();
+            }
+
+        public void PlayThrowableSound()
+            {
+                ThrowableSound.Play();
+            }
+
+        public void PlayShieldSound()
+            {
+                ShieldSound.Play();
+            }
+
+        public void PlayBornePickupSound()
+            {
+                BornePickupSound.Play();
+            }
+
+        public void PlayEngineLoop()
+            {
+                EngineLoop.Play();
             }
     }
 }

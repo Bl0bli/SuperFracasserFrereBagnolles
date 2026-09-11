@@ -52,6 +52,7 @@ namespace Game
                 Direction = direction.normalized,
                 Knockback = _stats.Get(StatType.KnockbackForce)
             });
+            AudioManager.Instance.PlayBumpingSound();
         }
     }
 }

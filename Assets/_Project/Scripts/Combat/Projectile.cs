@@ -57,6 +57,7 @@ namespace Game
             _bouncesLeft = _maxBounces;
             _deathTime = Time.time + _lifetime;
             _restored = false;
+            AudioManager.Instance.PlayThrowableSound();
 
             if (direction.sqrMagnitude < 0.0001f) direction = Vector2.up;
 

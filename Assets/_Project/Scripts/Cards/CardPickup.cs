@@ -26,7 +26,11 @@ namespace Game
 
         public void OnPickedUp(Actor collector)
         {
-            if (_consummed) return;
+            if (_consummed)
+            {
+                return;
+            }
+            
 
             if (_cardDef == null)
             {
@@ -58,6 +62,7 @@ namespace Game
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            AudioManager.Instance.PlayPowerPickupSound();
             Actor actor = other.GetComponentInParent<Actor>();
             if (actor == null) return;
 

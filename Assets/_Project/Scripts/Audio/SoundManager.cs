@@ -358,7 +358,7 @@ namespace Game
 
             AudioSource source = holder.AddComponent<AudioSource>();
             source.clip = _engineLoop;
-            source.loop = true;
+            source.loop = false;
             source.playOnAwake = false;
             source.spatialBlend = 0f;
             source.volume = 0f;

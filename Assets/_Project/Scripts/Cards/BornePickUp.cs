@@ -51,6 +51,7 @@ namespace Game
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            AudioManager.Instance.PlayBornePickupSound();
             Actor actor = other.GetComponentInParent<Actor>();
             if (actor == null) return;
 
