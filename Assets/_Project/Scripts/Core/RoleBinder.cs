@@ -61,7 +61,7 @@ namespace Game
             else
             {
                 _stats.SetBaseStats(stats);
-                if (_actor.Health != null) _actor.Health.ResetToMax();
+                if (_actor.Health != null) _actor.Health.ResetToMax(faction);
                 ApplyBodySettings(faction);
             }
 
