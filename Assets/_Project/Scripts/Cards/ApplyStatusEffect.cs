@@ -21,5 +21,11 @@ namespace Game
             
             target.StatusController.Apply(_status, _duration);
         }
+
+        public override float RemainingOn(Actor target)
+        {
+            if (target == null || target.StatusController == null) return 0f;
+            return target.StatusController.Has(_status) ? target.StatusController.Remaining(_status) : 0f;
+        }
     }
 }

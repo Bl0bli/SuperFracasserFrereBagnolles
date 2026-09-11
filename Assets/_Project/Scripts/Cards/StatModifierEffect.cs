@@ -41,5 +41,20 @@ namespace Game
                 Source = this
             });
         }
+
+        public override float RemainingOn(Actor target)
+        {
+            if (target == null || target.Stats == null) return 0f;
+
+            float remaining = 0f;
+            var modifiers = target.Stats.Modifiers;
+
+            for (int i = 0; i < modifiers.Count; i++)
+            {
+                if (ReferenceEquals(modifiers[i].Source, this)) remaining = Mathf.Max(remaining, modifiers[i].Duration);
+            }
+
+            return remaining;
+        }
     }
 }

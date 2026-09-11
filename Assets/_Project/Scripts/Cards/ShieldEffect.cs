@@ -26,5 +26,13 @@ namespace Game
 
             shield.Activate(_duration, _frontalOnly, _healOnSurvive);
         }
+
+        public override float RemainingOn(Actor target)
+        {
+            if (target == null) return 0f;
+
+            ShieldController shield = target.GetComponent<ShieldController>();
+            return shield != null && shield.IsActive ? shield.Remaining : 0f;
+        }
     }
 }
