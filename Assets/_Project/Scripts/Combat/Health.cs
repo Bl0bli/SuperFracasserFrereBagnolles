@@ -6,6 +6,9 @@ namespace Game
     [RequireComponent(typeof(StatBlock))]
     public class Health : MonoBehaviour
     {
+        [SerializeField] private float _offset = -2;
+        [SerializeField] private GameObject _slider;
+        [SerializeField] private GameObject _lifebar;
         [SerializeField] private StatBlock _stats;
         [SerializeField] private Actor _actor;
         [SerializeField] private Knockback _knockback;
@@ -33,10 +36,10 @@ namespace Game
             if (_actor == null) _actor = GetComponent<Actor>();
             if (_knockback == null) _knockback = GetComponent<Knockback>();
             if (_shield == null) _shield = GetComponent<ShieldController>();
-            ResetToMax();
+            ResetToMax(FactionType.Car);
         }
 
-        public void ResetToMax()
+        public void ResetToMax(FactionType faction)
         {
             _max = _stats.Get(StatType.MaxHealth);
             _current = _max;
@@ -45,6 +48,12 @@ namespace Game
             if (_max <= 0f)
             {
                 Debug.LogError("[Health] MaxHealth vaut 0 sur " + name + " : CharacterStats non assigne ?", this);
+            }
+
+            if (faction == FactionType.Cthulhu)
+            {
+                if (_slider != null) _slider.transform.position = new Vector3(_slider.transform.position.x, _slider.transform.position.y * _offset, _slider.transform.position.z);
+                if (_lifebar != null) _lifebar.transform.position = new Vector3(_lifebar.transform.position.x, _lifebar.transform.position.y * _offset, _lifebar.transform.position.z);
             }
         }
 
