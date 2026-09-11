@@ -16,4 +16,4 @@ MonoBehaviour:
   _cardSprite: {fileID: 1036029774301873356, guid: a0268beed5df697408410e31e9a9450b, type: 3}
   _verboseLogs: 1
   _status: 1
-  _duration: 5
+  _duration: 8

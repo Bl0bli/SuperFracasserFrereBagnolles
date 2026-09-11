@@ -15,6 +15,6 @@ MonoBehaviour:
   _target: 0
   _cardSprite: {fileID: 1711057867453021596, guid: 44f858052e366434b80837534bb0f3db, type: 3}
   _verboseLogs: 1
-  _duration: 6
+  _duration: 8
   _frontalOnly: 0
   _healOnSurvive: 1

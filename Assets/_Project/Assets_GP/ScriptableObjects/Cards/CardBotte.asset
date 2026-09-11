@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CardBotte
   m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
   ID: 
-  SpawnWeight: 1
+  SpawnWeight: 2
   _playerEffect: {fileID: 11400000, guid: e29d3c32e42b19045bf0065ff3494cda, type: 2}
   _entityEffect: {fileID: 11400000, guid: f61d27c9673387e44ba3282f8967bc5b, type: 2}

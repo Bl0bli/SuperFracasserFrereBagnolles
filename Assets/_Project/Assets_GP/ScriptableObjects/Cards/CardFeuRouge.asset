@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CardFeuRouge
   m_EditorClassIdentifier: Game.Runtime::Game.CardDefinition
   ID: 
-  SpawnWeight: 1
+  SpawnWeight: 8
   _playerEffect: {fileID: 11400000, guid: a16850357492f9243a001b0c37be8df7, type: 2}
   _entityEffect: {fileID: 11400000, guid: bc7a728cc67d1f847a1b9726c6a588ef, type: 2}
