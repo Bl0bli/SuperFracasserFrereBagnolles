@@ -11,6 +11,9 @@ namespace Game
         [Tooltip("Face visible de la carte une fois retournee.")]
         [SerializeField] private Sprite _icon;
 
+        [Tooltip("Icone affichee au-dessus du vehicule tant que l'effet dure. Vide : la face de la carte.")]
+        [SerializeField] private Sprite _activeIcon;
+
         [Tooltip("Colore les particules sous la carte : lumineuses ou sombres.")]
         [SerializeField] private EffectPolarity _polarity = EffectPolarity.Bonus;
 
@@ -23,8 +26,11 @@ namespace Game
                  "Cthulhu = l'entite. RandomCar = une voiture au hasard. Everyone = tout le monde.")]
         [SerializeField] protected EffectTarget _target = EffectTarget.Self;
 
+        public static event Action<CardEffect, Actor> OnAppliedTo;
+
         public EffectTarget Target => _target;
         public Sprite Icon => _icon;
+        public Sprite ActiveIcon => _activeIcon != null ? _activeIcon : _icon;
         public EffectPolarity Polarity => _polarity;
         public Color FeedbackColor => _feedbackColor;
 
@@ -47,10 +53,19 @@ namespace Game
 
             for (int i = 0; i < targets.Count; i++)
             {
-                if (targets[i] != null) ApplyTo(targets[i], collector);
+                if (targets[i] == null) continue;
+
+                ApplyTo(targets[i], collector);
+                OnAppliedTo?.Invoke(this, targets[i]);
             }
 
             return targets;
+        }
+
+        /// <summary>Secondes restantes de l'effet sur la cible. 0 : effet instantane ou termine.</summary>
+        public virtual float RemainingOn(Actor target)
+        {
+            return 0f;
         }
 
         protected abstract void ApplyTo(Actor target, Actor collector);

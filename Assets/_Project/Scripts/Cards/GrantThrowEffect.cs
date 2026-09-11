@@ -27,5 +27,13 @@ namespace Game
 
             ability.Grant(_projectile, _duration, _cooldown);
         }
+
+        public override float RemainingOn(Actor target)
+        {
+            if (target == null) return 0f;
+
+            ThrowAbility ability = target.GetComponent<ThrowAbility>();
+            return ability != null ? ability.Remaining : 0f;
+        }
     }
 }
