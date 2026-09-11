@@ -6,7 +6,7 @@ namespace Game
     [RequireComponent(typeof(StatBlock))]
     public class Health : MonoBehaviour
     {
-        [SerializeField] private float _offset = -2;
+        [SerializeField] private Transform _offsetSlider, _offsetLifebar;
         [SerializeField] private GameObject _slider;
         [SerializeField] private GameObject _lifebar;
         [SerializeField] private StatBlock _stats;
@@ -53,8 +53,8 @@ namespace Game
 
             if (faction == FactionType.Cthulhu)
             {
-                if (_slider != null) _slider.transform.position = new Vector3(_slider.transform.position.x, _slider.transform.position.y * _offset, _slider.transform.position.z);
-                if (_lifebar != null) _lifebar.transform.position = new Vector3(_lifebar.transform.position.x, _lifebar.transform.position.y * _offset, _lifebar.transform.position.z);
+                if (_slider != null) _slider.transform.position = _offsetSlider.transform.position;
+                if (_lifebar != null) _lifebar.transform.position = _offsetLifebar.transform.position;
             }
         }
 
