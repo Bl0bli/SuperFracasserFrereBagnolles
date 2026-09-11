@@ -22,9 +22,9 @@ namespace Game
             Hide();
         }
 
-        private void OnEnable()
+        private void Start()
         {
-            if (MatchManager.Instance != null) MatchManager.Instance.OnMatchEnded += HandleMatchEnded;
+            MatchManager.Instance.OnMatchEnded += HandleMatchEnded;
         }
 
         private void OnDisable()
