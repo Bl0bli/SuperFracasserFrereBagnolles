@@ -20,8 +20,9 @@ namespace Game
         [FormerlySerializedAs("_power")]
         [SerializeField] private float _value = 0.5f;
 
-        [Tooltip("Duree en secondes. Zero ou moins = permanent jusqu'a la fin de la partie.")]
-        [SerializeField] private float _duration = 5f;
+        [Tooltip("Duree en secondes. Une carte ne pose jamais de modificateur permanent : " +
+                 "une valeur nulle est ramenee au minimum.")]
+        [SerializeField, Min(0.1f)] private float _duration = 5f;
 
         protected override void ApplyTo(Actor target, Actor collector)
         {
@@ -36,7 +37,7 @@ namespace Game
                 Stats = _stat,
                 Modifier = _mode,
                 Value = _value,
-                Duration = _duration,
+                Duration = Mathf.Max(0.1f, _duration),
                 Source = this
             });
         }

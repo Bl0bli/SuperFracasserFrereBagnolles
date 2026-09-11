@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2286629867784134179, guid: f0499fc5a3f9ac04898778cb828c443d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -141,4 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 524284012bca7764c8acd32d67d48795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.CardPickup
+  _cardDef: {fileID: 0}
   _spriteRenderer: {fileID: 3684446029249432759}
+  _collider: {fileID: 0}

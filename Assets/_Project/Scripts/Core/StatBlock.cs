@@ -8,6 +8,10 @@ namespace Game
     {
         [SerializeField] private CharacterStats _baseStats;
 
+        [Tooltip("Plancher du produit des multiplicateurs. Empeche un cumul de ralentissements " +
+                 "ou un multiplicateur mal regle d'immobiliser completement un joueur.")]
+        [SerializeField, Range(0.01f, 1f)] private float _minMultiplier = 0.15f;
+
         private readonly List<StatModifier> _modifiers = new List<StatModifier>();
 
         public IReadOnlyList<StatModifier> Modifiers => _modifiers;
@@ -50,7 +54,7 @@ namespace Game
                 }
             }
 
-            return (GetBaseStat(stat) + additive) * factor;
+            return (GetBaseStat(stat) + additive) * Mathf.Max(factor, _minMultiplier);
         }
 
         public void AddModifier(StatModifier modifier)
