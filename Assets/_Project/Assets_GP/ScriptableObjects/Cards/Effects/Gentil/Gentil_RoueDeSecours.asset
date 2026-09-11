@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Gentil_RoueDeSecours
   m_EditorClassIdentifier: Game.Runtime::Game.GrantThrowEffect
   _icon: {fileID: 822378364912159227, guid: 48f241b33e32ba64391c47a4c38e5969, type: 3}
+  _activeIcon: {fileID: -7691023245662224284, guid: 747b3ad05d42e2c49b6b802f1a23d037, type: 3}
   _polarity: 0
   _feedbackColor: {r: 1, g: 0.83137256, b: 0.30588236, a: 0.29803923}
   _target: 1

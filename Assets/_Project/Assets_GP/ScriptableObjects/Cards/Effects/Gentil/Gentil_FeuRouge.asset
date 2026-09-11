@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Gentil_FeuRouge
   m_EditorClassIdentifier: Game.Runtime::Game.StatModifierEffect
   _icon: {fileID: -6075755818591703691, guid: 74059a348a7c78f469bb7b3a98077842, type: 3}
+  _activeIcon: {fileID: -5340820287193280548, guid: 6475d54626bb52f4bb37ef30e581c840, type: 3}
   _polarity: 0
   _feedbackColor: {r: 1, g: 0.83137256, b: 0.30588236, a: 0.29803923}
   _target: 0
