@@ -82,6 +82,7 @@ namespace Game
                 _current = 0f;
                 OnDied?.Invoke(_actor);
                 Instantiate(_fxDeath, transform.position, Quaternion.identity);
+                AudioManager.Instance.PlayExplosionSound();
                 gameObject.SetActive(false);
             }
         }

@@ -25,6 +25,7 @@ namespace Game
             }
 
             shield.Activate(_duration, _frontalOnly, _healOnSurvive);
+            AudioManager.Instance.PlayShieldSound();
         }
 
         public override float RemainingOn(Actor target)
