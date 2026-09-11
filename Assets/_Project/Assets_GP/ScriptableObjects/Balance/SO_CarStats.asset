@@ -22,6 +22,6 @@ MonoBehaviour:
   RamSpeedThreshold: 0.5
   RamDamage: 10
   KnockbackForce: 6
-  MaxHealth: 100
-  Damage: 10
+  MaxHealth: 350
+  Damage: 1
   AttackCooldown: 1
