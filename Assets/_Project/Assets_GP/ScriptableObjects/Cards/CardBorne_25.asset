@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CardBorne_25
   m_EditorClassIdentifier: Game.Runtime::Game.BorneCardDefinition
   ID: 
-  SpawnWeight: 1
+  SpawnWeight: 8
   BorneValue: 25
   Icon: {fileID: 1211289886783544221, guid: 8572b4f7c6a1aaf4eb24a0d6f9a415c8, type: 3}
