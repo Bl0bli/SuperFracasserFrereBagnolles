@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cd23a687b5e3cf64cbcba8b25701c432
+guid: eb2afc8f59ee4a645b6fd199339d594b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2274921200736259622
-    second: voiture_monstre_0
+      213: -8769727792005933472
+    second: voiture_04_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: voiture_monstre_0
+      name: voiture_04_0
       rect:
         serializedVersion: 2
-        x: 46
-        y: 22
-        width: 999
-        height: 1450
+        x: 5
+        y: 15
+        width: 333
+        height: 611
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad13c12983bdd60e0800000000000000
-      internalID: -2274921200736259622
+      spriteID: 0669d94890bab4680800000000000000
+      internalID: -8769727792005933472
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      voiture_monstre_0: -2274921200736259622
+      voiture_04_0: -8769727792005933472
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
